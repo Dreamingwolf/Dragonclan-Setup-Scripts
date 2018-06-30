@@ -67,6 +67,9 @@ else
 	#Update and Upgrade
 	echo "Updating and Upgrading"
 	cat ./arch_repos | sudo tee -a /etc/pacman.conf
+	mirror
+	sudo pacman -Syy
+	pks nvidia-dkms nvidia-settings
 	pksyua
 
 	#Cleanup
