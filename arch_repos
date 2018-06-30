@@ -1,0 +1,61 @@
+
+[aur-archlinux] 
+Server = https://repo.itmettke.de/aur/$repo/$arch
+
+[qt-debug]
+Server = https://qutebrowser.org/qt-debug/$arch
+
+[seblu]
+Server = http://al.seblu.net/$repo/$arch
+
+[archlinuxfr]
+SigLevel = Never
+Server = http://repo.archlinux.fr/$arch
+
+[heftig]
+SigLevel = Never
+Server = https://pkgbuild.com/~heftig/repo/$arch
+
+[jkanetwork]
+SigLevel = Never
+Server = http://repo.jkanetwork.com/repo/$repo/
+
+[mesa-git]
+SigLevel = Never
+Server = https://pkgbuild.com/~lcarlier/$repo/$arch
+
+#[llvm-svn]
+#Server = https://repos.uni-plovdiv.net/archlinux/$repo/$arch
+
+#[jlk]
+#Server = http://jlk.fjfi.cvut.cz/arch/repo
+
+[ownstuff]
+SigLevel = PackageOptional
+Server = http://martchus.no-ip.biz/repo/arch/$repo/os/$arch
+
+[xyne-x86_64]
+SigLevel = PackageOptional
+Server = https://xyne.archlinux.ca/repos/xyne
+
+[dx37essentials]
+SigLevel = PackageOptional
+Server = https://dx37.gitlab.io/$repo/$arch
+
+[alucryd]
+SigLevel = PackageOptional
+Server = https://pkgbuild.com/~alucryd/$repo/x86_64
+
+[alucryd-multilib]
+SigLevel = PackageOptional
+Server = https://pkgbuild.com/~alucryd/$repo/x86_64
+
+#[miffe]
+#SigLevel = PackageOptional
+#Server = https://arch.miffe.org/$arch/
+
+#[archstrike]
+#Include = /etc/pacman.d/archstrike-mirrorlist
+
+#[archstrike-testing]
+#Include = /etc/pacman.d/archstrike-mirrorlist
