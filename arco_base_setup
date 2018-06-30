@@ -1,0 +1,82 @@
+#!/bin/bash
+# First attempt at a setup script
+# Version 0.1
+
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as root type: sudo ./arco_base_setup" 
+   	exit 1
+else
+	#Download needed files
+	echo "Downloading needed files"
+	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/arch_repos
+	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/fstab_update
+	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/hosts
+	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/sudoers_update
+
+	#Update su permissions
+	echo "Updating sudoers file"
+	cat ./sudoers_update | sudo tee -a /etc/sudoers
+
+	#Update hosts file
+	echo "Updating the hosts file"
+	sudo rm -f /etc/hosts
+	sudo cp ./hosts /etc/
+
+	#Create mount points
+	echo "Creating needed mount points"
+	mkdir /home/david/.home
+	sudo mkdir /Backup
+	sudo mkdir /StorageBunker
+
+	#Mount .Home
+	echo "Mounting .home"
+	sudo mount /dev/nvme0n1p1 /home/david/.home
+
+	#Setup home folder
+	echo "Setting up/linking home folder"
+	#Remove original folders
+	sudo rm -rf /home/david/Documents
+	sudo rm -rf /home/david/Downloads
+	sudo rm -rf /home/david/Music
+	sudo rm -rf /home/david/Pictures
+	sudo rm -rf /home/david/Videos
+	sudo rm -rf /home/david/.gnupg
+	#Install symbolic links
+	sudo ln -s /home/david/.home/Documents /home/david
+	sudo ln -s /home/david/.home/Downloads /home/david
+	sudo ln -s /home/david/.home/Games /home/david
+	sudo ln -s /home/david/.home/Google_Drive /home/david
+	sudo ln -s /home/david/.home/Links /home/david
+	sudo ln -s /home/david/.home/Music /home/david
+	sudo ln -s /home/david/.home/Pictures /home/david
+	sudo ln -s /home/david/.home/Scripts /home/david
+	sudo ln -s /home/david/.home/Softmaker /home/david
+	sudo ln -s /home/david/.home/Videos /home/david
+	sudo ln -s /home/david/.home/VPNac /home/david
+	sudo ln -s /home/david/.home/Wallpapers /home/david
+	sudo ln -s /home/david/.home/Working /home/david
+	sudo ln -s /home/david/.home/.gnupg /home/david
+	sudo ln -s /home/david/.home/.mozilla /home/david
+	sudo ln -s /home/david/.home/.steam /home/david
+	sudo ln -s /home/david/.home/.thunderbird /home/david
+
+	#Update fstab
+	echo "Updating fstab"
+	cat ./fstab_update | sudo tee -a /etc/fstab 
+
+	#Update and Upgrade
+	echo "Updating and Upgrading"
+	cat ./arch_repos | sudo tee -a /etc/pacman.conf
+	pksyua
+
+	#Cleanup
+	echo "Cleaning up"
+	rm ./sudoers_update
+	rm ./hosts
+	rm ./fstab_update
+	rm ./arch_repos
+
+	echo "DON'T FORGET TO REBOOT!"
+
+fi
+
