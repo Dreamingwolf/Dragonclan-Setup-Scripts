@@ -1,6 +1,6 @@
 #!/bin/bash
-# First attempt at a setup script
-# Version 0.1
+# A setup script for arch based distros
+# Version 0.2
 
 if [[ $EUID -ne 0 ]]; then
    	echo "This script must be run as root type: sudo ./arco_base_setup" 
@@ -8,19 +8,19 @@ if [[ $EUID -ne 0 ]]; then
 else
 	#Download needed files
 	echo "Downloading needed files"
-	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/arch_repos
-	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/fstab_update
-	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/hosts
-	wget --no-check-certificate https://raw.githubusercontent.com/Dreamingwolf/Setup-Scripts/master/sudoers_update
+	cd /tmp
+	wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/arch_repos
+	wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/fstab_update
+	wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
+	wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/sudoers_update
 
 	#Update su permissions
 	echo "Updating sudoers file"
-	cat ./sudoers_update | sudo tee -a /etc/sudoers
+	sudo cat ./sudoers_update >> /etc/sudoers
 
 	#Update hosts file
 	echo "Updating the hosts file"
-	sudo rm -f /etc/hosts
-	sudo cp ./hosts /etc/
+	sudo cat ./Dragon01_hosts > /etc/hosts
 
 	#Create mount points
 	echo "Creating needed mount points"
@@ -35,12 +35,24 @@ else
 	#Setup home folder
 	echo "Setting up/linking home folder"
 	#Remove original folders
-	sudo rm -rf /home/david/Documents
-	sudo rm -rf /home/david/Downloads
-	sudo rm -rf /home/david/Music
-	sudo rm -rf /home/david/Pictures
-	sudo rm -rf /home/david/Videos
-	sudo rm -rf /home/david/.gnupg
+	if [ -d /home/david/Documents ]; then sudo rm -Rf /home/david/Documents; fi
+	if [ -d /home/david/Downloads ]; then sudo rm -Rf /home/david/Downloads; fi
+	if [ -d /home/david/Games ]; then sudo rm -Rf /home/david/Games; fi
+	if [ -d /home/david/Google_Drive ]; then sudo rm -Rf /home/david/Google_Drive; fi
+	if [ -d /home/david/Links ]; then sudo rm -Rf /home/david/Links; fi
+	if [ -d /home/david/Music ]; then sudo rm -Rf /home/david/Music; fi
+	if [ -d /home/david/Pictures ]; then sudo rm -Rf /home/david/Pictures; fi
+	if [ -d /home/david/Scripts ]; then sudo rm -Rf /home/david/Scripts; fi
+	if [ -d /home/david/Softmaker ]; then sudo rm -Rf /home/david/Softmaker; fi
+	if [ -d /home/david/Videos ]; then sudo rm -Rf /home/david/Videos; fi
+	if [ -d /home/david/VPNac ]; then sudo rm -Rf /home/david/VPNac; fi
+	if [ -d /home/david/Wallpapers ]; then sudo rm -Rf /home/david/Wallpapers; fi
+	if [ -d /home/david/Working ]; then sudo rm -Rf /home/david/Working; fi
+	if [ -d /home/david/.gnupg ]; then sudo rm -Rf /home/david/.gnupg; fi
+	if [ -d /home/david/.mozilla ]; then sudo rm -Rf /home/david/.mozilla; fi
+	if [ -d /home/david/.steam ]; then sudo rm -Rf /home/david/.steam; fi
+	if [ -d /home/david/.thunderbird ]; then sudo rm -Rf /home/david/.thunderbird; fi
+	if [ -d /home/david/Etcher ]; then sudo rm -Rf /home/david/Etcher; fi
 	#Install symbolic links
 	sudo ln -s /home/david/.home/Documents /home/david
 	sudo ln -s /home/david/.home/Downloads /home/david
@@ -59,14 +71,15 @@ else
 	sudo ln -s /home/david/.home/.mozilla /home/david
 	sudo ln -s /home/david/.home/.steam /home/david
 	sudo ln -s /home/david/.home/.thunderbird /home/david
+	sudo ln -s /home/david/.home/Etcher /home/david
 
 	#Update fstab
 	echo "Updating fstab"
-	cat ./fstab_update | sudo tee -a /etc/fstab 
+	sudo cat ./fstab_update >> /etc/fstab 
 
 	#Update and Upgrade
 	echo "Updating and Upgrading"
-	cat ./arch_repos | sudo tee -a /etc/pacman.conf
+	sudo cat ./arch_repos >> /etc/pacman.conf
 	mirror
 	sudo pacman -Syy
 	pks nvidia-dkms nvidia-settings
@@ -75,7 +88,7 @@ else
 	#Cleanup
 	echo "Cleaning up"
 	rm ./sudoers_update
-	rm ./hosts
+	rm ./Dragon01_hosts
 	rm ./fstab_update
 	rm ./arch_repos
 
