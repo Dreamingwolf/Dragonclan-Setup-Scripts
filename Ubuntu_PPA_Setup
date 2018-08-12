@@ -1,0 +1,221 @@
+#!/bin/bash
+# Ubuntu and Derivatives PPA Setup Script
+# Dreamingwolf
+# Ver. 0.1
+
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as root type: sudo ./Ubuntu_PPA_Setup" 
+   	exit 1
+else
+    # Warning
+        echo "BE WARNED - Not all PPAs have release pages for all versions of Ubuntu. Be sure to verify and correct any issues after installation!"
+
+    # PPA Installation Commands
+
+    sudo apt-get install dialog
+	cmd=(dialog --separate-output --checklist "Please Select PPAs you want to install:" 22 76 16)
+	options=(	 1 "Canonical Kernal Team" off    # any option can be set to default to "on"
+			 2 "Daniel Richter - grub-customizer" on 
+			 3 "Etcher" on 
+			 4 "Nvidia Drivers" on
+			 5 "Linux Uprising - Oracle Java 10" on
+			 6 "Lutris" on
+			 7 "LXQT Team" off
+			 8 "LXQT Team - Testing" off
+			 9 "Firefox-Nightly" on
+			 10 "Thunderbird Beta" on
+			 11 "OBS Project" on
+			 12 "Otto Kesselgulasch - Gimp" on
+			 13 "Peppermint 9" off
+			 14 "Steam" on
+			 15 "Tony George - Timeshift etc" on
+			 16 "Virtualbox" on
+			 17 "Visual Studio Code" on
+			 18 "WebUpd8 Team" off
+			 19 "XFCE - xubuntu-dev-extra" off
+			 20 "XFCE - xubuntu-dev-experimental" off
+			 21 "KDE - kubuntu backports" off
+             #The Rest are here merely to allow for easy expansion
+#			 22 "Steam (Valve)" on
+#			 23 "PIA VPN (Network Mgr Version)" off
+#			 24 "Docky" on
+#			 25 "Lutris" on
+#			 26 "Hexchat" on
+#			 27 "Shotwell" on
+#			 28 "Cheese" off
+#			 29 "Audacity" off
+#			 30 "Guvcview (webcam settings)" on
+
+        choices=$("${cmd[@]}" "${options[@]}" 2>&1 >/dev/tty)
+		clear
+		for choice in $choices
+		do
+		    case $choice in
+			
+			1)
+	            #Canonical Kernal Team
+				echo "Installing Canonical Kernal Team PPA"
+				sudo add-apt-repository -yn ppa:canonical-kernal-team/ppa
+				;;
+
+			2)
+				#Daniel Richter
+				echo "Installing Daniel Richter's PPA for grub-customizer"
+				sudo add-apt-repository -yn ppa:danielrichter2007/grub-customizer
+				;;
+
+	    	3)	
+				#Etcher
+				echo "Installing Etcher Repository"
+				echo "deb https://dl.bintray.com/resin-io/debian stable etcher" | sudo tee /etc/apt/sources.list.d/etcher.list
+                sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61
+				;;
+				
+			4)
+				#Nvidia Drivers
+				echo "Installing Graphics Drivers PPA for Nvidia drivers"
+				sudo add-apt-repository -yn ppa:graphics-drivers/ppa
+				;;
+
+			5)
+				#Linux Uprising Java 10
+				echo "Installing Linux Uprising PPA for Oracle Java 10"
+				sudo add-apt-repository -yn ppa:linuxuprising/java
+				;;
+			6)
+				#Lutris
+				echo "Installing Lutris Repository"
+				ver=$(lsb_release -sr); if [ $ver != "18.04" -a $ver != "17.10" -a $ver != "17.04" -a $ver != "16.04" ]; then ver=18.04; fi
+                echo "deb http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/ ./" | sudo tee /etc/apt/sources.list.d/lutris.list
+                wget -q http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Release.key -O- | sudo apt-key add -
+				;;
+			7)
+				#LXQT Team
+				echo "Installing LXQT Team PPA"
+				sudo add-apt-repository -yn ppa:lxqt/ppa
+				;;
+			8)
+				#LXQT Team - Testing
+				echo "Installing LXQT Team - Testing PPA"
+				sudo add-apt-repository -yn ppa:lxqt/testing
+				;;
+			9)
+				#Firefox-Nightly
+				echo "Installing PPA for Firefox Nightly. Install as firefox-trunk."
+				sudo add-apt-repository -yn ppa:ubuntu-mozilla-daily/ppa
+				;;
+			10)
+				#Thunderbird Beat
+				echo "Installing PPA for Thunderbird Beta. Install as thunderbird."
+				sudo add-apt-repository -yn ppa:mozillateam/thunderbird-next
+				;;
+			11)
+				#OBS Project
+				echo "Installing OBSProject PPA"
+				sudo add-apt-repository -yn ppa:obsproject/obs-studio
+				;;
+			12)
+				#Otto Kesselgulasch
+                #Need to expand later for multiple choice within Otto's repos
+				echo "Installing Otto Kesselgulasch PPA for Gimp"
+				sudo add-apt-repository -yn ppa:otto-kesselgulasch/gimp
+				;;
+			13)
+				#Peppermint 9
+				echo "Installing Release PPA for Peppermint 9 OS"
+				sudo add-apt-repository -yn ppa:peppermintos/p9-release
+				;;
+			14)
+				#Steam
+				echo "Installing Steam PPA for Ubuntu Precise"
+				sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B05498B7
+                sudo sh -c 'echo "deb http://repo.steampowered.com/steam/ precise steam" >> /etc/apt/sources.list.d/steam.list'
+				;;
+			15)
+				#Tony George
+				echo "Installing Tony George PPA for timeshift, etc"
+				sudo add-apt-repository ppa:teejee2008/ppa
+				;;
+			16)
+				#Virtualbox
+				echo "Installing Virtualbox Repository"
+				sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
+                wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+				;;
+			17)
+				#Visual Studio Code
+				echo "Installing Visual Studio Code Repository. Install as code"
+				curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+                sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+                sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+				;;
+			18)
+				#WebUpd8 Team
+                #Need to expand later for multiple choice within WebUpd8's repos
+				echo "Installing WebUpd8 PPA for PPA Manager"
+				sudo add-apt-repository ppa:webupd8team/y-ppa-manager
+				;;
+
+			19)
+            	#XFCE - xubuntu-dev-extra
+				echo "Installing xubuntu-dev-extras for XFCE"
+				sudo add-apt-repository ppa:xubuntu-dev/extras
+				;;
+
+			20)
+            	#XFCE - xubuntu-dev-experimental
+				echo "Installing xubuntu-dev-experimental for XFCE"				
+				sudo add-apt-repository ppa:xubuntu-dev/experimental
+				;;
+
+			21)
+            	#KDE kubuntu backports
+				echo "Installing kubuntu backports PPA for KDE"
+				sudo add-apt-repository ppa:kubuntu-ppa/backports
+				;;
+
+#The rest are here merely to allow for expansion
+#			22)
+            	#
+#			    ;;
+#
+#			23)
+            	#
+#				;;
+#
+#			24)
+            	#
+#				;;
+#
+#			25)
+            	#
+#			    ;;
+#
+#			26)
+            	#
+#				;;
+#
+#			27)	
+                #
+#				;;
+
+#			28)
+            	#
+#				;;
+#
+#			29) 
+				#
+#				;;
+#
+#			30) 
+				#
+#				;;
+#
+        esac
+    done
+
+    # Updating the Cache after all PPAs have been set up.
+        echo "Updating the Apt Cache. Double check for any problems!"
+        sudo apt update
+
+fi

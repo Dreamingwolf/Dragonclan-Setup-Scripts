@@ -1,0 +1,84 @@
+#!/bin/bash
+# Personal setup script for my desktop computer
+# ~Dragonwolf
+# Version 1.0
+
+if [[ $EUID -ne 0 ]]; then
+   	echo "This script must be run as root type: sudo ./Dragon01_Setup" 
+   	exit 1
+else
+	#Fetching Needed Files
+		echo "Fetching needed files"
+		cd /tmp
+		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/sudoers_update
+		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/fstab_update
+		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
+
+	#Updating Sudoers File to Add NOPASSWD to User
+		echo "Adding NOPASSWD to sudoers file"
+		sudo cat ./sudoers_update >> /etc/sudoers
+	
+	#Setup Directories for Mounting
+		echo "Creating directories for mounting"
+		mkdir /home/david/.home
+		sudo mkdir /StorageBunker
+		sudo mkdir /Backup
+	
+	#Add System Drives to fstab
+		echo "Adding system drives to fstab"
+		sudo cat ./fstab_update >> /etc/fstab
+
+	#Setup home folder
+		echo "Mounting, setting up, and linking home folder"
+
+		#Mount the UserData Partition to .home
+			sudo mount /dev/nvme0n1p1 /home/david/.home
+			
+		#Remove original folders
+			if [ -d /home/david/Documents ]; then sudo rm -Rf /home/david/Documents; fi
+			if [ -d /home/david/Downloads ]; then sudo rm -Rf /home/david/Downloads; fi
+			if [ -d /home/david/Games ]; then sudo rm -Rf /home/david/Games; fi
+			if [ -d /home/david/Google_Drive ]; then sudo rm -Rf /home/david/Google_Drive; fi
+			if [ -d /home/david/Links ]; then sudo rm -Rf /home/david/Links; fi
+			if [ -d /home/david/Music ]; then sudo rm -Rf /home/david/Music; fi
+			if [ -d /home/david/Pictures ]; then sudo rm -Rf /home/david/Pictures; fi
+			if [ -d /home/david/Scripts ]; then sudo rm -Rf /home/david/Scripts; fi
+			if [ -d /home/david/Softmaker ]; then sudo rm -Rf /home/david/Softmaker; fi
+			if [ -d /home/david/Videos ]; then sudo rm -Rf /home/david/Videos; fi
+			if [ -d /home/david/VPNac ]; then sudo rm -Rf /home/david/VPNac; fi
+			if [ -d /home/david/Wallpapers ]; then sudo rm -Rf /home/david/Wallpapers; fi
+			if [ -d /home/david/Working ]; then sudo rm -Rf /home/david/Working; fi
+			if [ -d /home/david/.gnupg ]; then sudo rm -Rf /home/david/.gnupg; fi
+			if [ -d /home/david/.mozilla ]; then sudo rm -Rf /home/david/.mozilla; fi
+			if [ -d /home/david/.steam ]; then sudo rm -Rf /home/david/.steam; fi
+			if [ -d /home/david/.thunderbird ]; then sudo rm -Rf /home/david/.thunderbird; fi
+			if [ -d /home/david/Etcher ]; then sudo rm -Rf /home/david/Etcher; fi
+		
+		#Install symbolic links
+			sudo ln -s /home/david/.home/Documents /home/david
+			sudo ln -s /home/david/.home/Downloads /home/david
+			sudo ln -s /home/david/.home/Games /home/david
+			sudo ln -s /home/david/.home/Google_Drive /home/david
+			sudo ln -s /home/david/.home/Links /home/david
+			sudo ln -s /home/david/.home/Music /home/david
+			sudo ln -s /home/david/.home/Pictures /home/david
+			sudo ln -s /home/david/.home/Scripts /home/david
+			sudo ln -s /home/david/.home/Softmaker /home/david
+			sudo ln -s /home/david/.home/Videos /home/david
+			sudo ln -s /home/david/.home/VPNac /home/david
+			sudo ln -s /home/david/.home/Wallpapers /home/david
+			sudo ln -s /home/david/.home/Working /home/david
+			sudo ln -s /home/david/.home/.gnupg /home/david
+			sudo ln -s /home/david/.home/.mozilla /home/david
+			sudo ln -s /home/david/.home/.steam /home/david
+			sudo ln -s /home/david/.home/.thunderbird /home/david
+			sudo ln -s /home/david/.home/Etcher /home/david
+
+	#Update hosts file
+		echo "Updating the hosts file"
+		sudo cat ./Dragon01_hosts > /etc/hosts
+
+	#Reboot Reminder
+		echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
+
+fi
