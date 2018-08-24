@@ -1,5 +1,4 @@
-#
-UUID=a1f45f9c-e72f-48bd-9dc6-644f705d60c8 /home/david/.home ext4 users,exec,rw,auto,noatime 0 2
+#Dragon01 additional system drives
 UUID=9cfc0a03-e552-41db-a911-80c7cf07b340 /Backup ext4 users,exec,rw,auto,noatime 0 2
 UUID=71F603C76204CC5C /StorageBunker ntfs uid=1000,gid=1000,umask=0000,windows_names 0 2
 #
