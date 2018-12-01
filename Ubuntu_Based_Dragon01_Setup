@@ -55,7 +55,7 @@ else
 			if [ -d /home/david/.steam ]; then sudo rm -Rf /home/david/.steam; fi
 			if [ -d /home/david/.thunderbird ]; then sudo rm -Rf /home/david/.thunderbird; fi
 			if [ -d /home/david/Etcher ]; then sudo rm -Rf /home/david/Etcher; fi
-		
+			if [ -d /home/david/Github ]; then sudo rm -Rf /home/david/Github; fi
 		#Install symbolic links
 			sudo ln -s /home/david/.home/Documents /home/david
 			sudo ln -s /home/david/.home/Downloads /home/david
@@ -75,6 +75,7 @@ else
 			sudo ln -s /home/david/.home/.steam /home/david
 			sudo ln -s /home/david/.home/.thunderbird /home/david
 			sudo ln -s /home/david/.home/Etcher /home/david
+			sudo ln -s /home/david/.home/Github /home/david
 
 	#Update hosts file
 		echo "Updating the hosts file"
