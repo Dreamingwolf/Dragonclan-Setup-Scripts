@@ -30,8 +30,8 @@ else
 			 14 "Steam" on
 			 15 "Tony George - Timeshift etc" on
 			 16 "Virtualbox" on
-			 17 "Visual Studio Code" on
-			 18 "WebUpd8 Team" off
+			 17 "Visual Studio Code" off
+			 18 "WebUpd8 Team" on
 			 19 "XFCE - xubuntu-dev-extra" off
 			 20 "XFCE - xubuntu-dev-experimental" off
 			 21 "KDE - kubuntu backports" off
@@ -85,7 +85,7 @@ else
 			6)
 				#Lutris
 				echo "Installing Lutris Repository"
-				ver=$(lsb_release -sr); if [ $ver != "18.04" -a $ver != "17.10" -a $ver != "17.04" -a $ver != "16.04" ]; then ver=18.04; fi
+				ver=$(lsb_release -sr); if [ $ver != "19.04" -a $ver != "18.10" -a $ver != "18.04" -a $ver != "17.10" -a $ver != "17.04" -a $ver != "16.04" ]; then ver=18.04; fi
                 echo "deb http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/ ./" | sudo tee /etc/apt/sources.list.d/lutris.list
                 wget -q http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Release.key -O- | sudo apt-key add -
 				;;
