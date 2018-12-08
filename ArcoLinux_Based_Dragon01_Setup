@@ -178,6 +178,11 @@ else
             if [ -d "/home/david/.zoom" ]; then sudo rm -Rf "/home/david/.zoom"; fi
             sudo ln -s "$HOMEPART/.zoom" "/home/david"
         fi
+        if [ -f "$HOMEPART/.pam-gnupg" ]
+        then
+            if [ -f "/home/david/.pam-gnupg" ]; then sudo rm -f "/home/david/.pam-gnupg"; fi
+            sudo ln -s "$HOMEPART/.pam-gnupg" "/home/david"
+        fi
 
 	#Update and Upgrade
 	echo "Updating and Upgrading"
