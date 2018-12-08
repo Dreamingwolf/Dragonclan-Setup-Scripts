@@ -9,7 +9,7 @@ if [[ $EUID -ne 0 ]]; then
 else
 	#Fetching Needed Files
 		echo "Fetching needed files"
-		cd /tmp
+		cd /tmp || return
 		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
 		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Ubuntu_PPA_Setup
 
@@ -184,7 +184,7 @@ else
 
 	#Update hosts file
 		echo "Updating the hosts file"
-		sudo cat ./Dragon01_hosts > /etc/hosts
+		sudo mv -f ./Dragon01_hosts /etc/hosts
 		
 	#Setting up additional PPAs and other Repositories
 		sudo chmod +x ./Ubuntu_PPA_Setup

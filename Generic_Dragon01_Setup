@@ -8,7 +8,7 @@ if [[ $EUID -ne 0 ]]; then
 else
 	#Download needed files
 	echo "Downloading needed files"
-	cd /tmp
+	cd /tmp || return
 	wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
 
 	#Update su permissions
@@ -17,7 +17,7 @@ else
 
 	#Update hosts file
 	echo "Updating the hosts file"
-	sudo cat ./Dragon01_hosts > /etc/hosts
+	sudo mv -f ./Dragon01_hosts /etc/hosts
 
 	#Create mount points
 	echo "Creating needed mount points"
