@@ -1,0 +1,10 @@
+    sudo pacman-key --init
+    sudo pacman-key --populate archlinux
+    sudo pacman-key --recv-keys 932BA3FA0C86812A32D1F54DAB5964AEB9FEDDDC
+    sudo pacman-key --lsign-key 932BA3FA0C86812A32D1F54DAB5964AEB9FEDDDC
+    sudo pacman-key --recv-keys 313F5ABD
+    sudo pacman-key --lsign-key 313F5ABD
+    sudo pacman-key --recv-keys 4B4E7A9523ACD201
+    sudo pacman-key --lsign-key 4B4E7A9523ACD201
+    sudo pacman-key --recv 7448C890582975CD 
+	sudo pacman-key --lsign 7448C890582975CD

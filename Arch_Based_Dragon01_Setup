@@ -186,6 +186,13 @@ else
 
 	#Update and Upgrade
 	echo "Updating and Upgrading"
+    wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
+    sudo tar -xvf ./yay-bin.tar.gz
+    cd yay-bin
+    makepkg -i
+    cd ..
+    sudo rm -fR ./yay-bin
+    fi
 	while read -r; do
         sudo tee -a /etc/pacman.conf
     done < "./arch_repos"
@@ -199,14 +206,17 @@ else
     sudo pacman-key --lsign-key 4B4E7A9523ACD201
     sudo pacman-key --recv-keys 7448C890582975CD 
     sudo pacman-key --lsign-key 7448C890582975CD
-	mirror
+    sudo pacman -Sy reflector
+	sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
 	sudo pacman -Syy
 	yay -S --needed nvidia-dkms nvidia-settings pass ruby pam-gnupg-git dmenu
-	pksyua
+	yay -Syu --noconfirm
 
 	#Cleanup
 	echo "Cleaning up"
+	sudo rm ./sudoers_update
 	sudo rm ./Dragon01_hosts
+	sudo rm ./fstab_update
 	sudo rm ./arch_repos
 
 	echo "DON'T FORGET TO REBOOT!"
