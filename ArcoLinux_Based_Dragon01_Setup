@@ -204,6 +204,10 @@ else
 	yay -S --needed nvidia-dkms nvidia-settings pass ruby pam-gnupg-git dmenu
 	pksyua
 
+    #Add ssh key
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+
 	#Cleanup
 	echo "Cleaning up"
 	sudo rm ./Dragon01_hosts

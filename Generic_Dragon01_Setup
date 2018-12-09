@@ -181,6 +181,10 @@ else
         sudo ln -s "$HOMEPART/.pam-gnupg" "/home/david"
     fi
 
+    #Add ssh key
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+    
 	#Cleanup
 	echo "Cleaning up"
 	sudo rm ./Dragon01_hosts

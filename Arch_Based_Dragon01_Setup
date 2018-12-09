@@ -212,6 +212,10 @@ else
 	yay -S --needed nvidia-dkms nvidia-settings pass ruby pam-gnupg-git dmenu
 	yay -Syu --noconfirm
 
+    #Add ssh key
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_rsa
+
 	#Cleanup
 	echo "Cleaning up"
 	sudo rm ./sudoers_update

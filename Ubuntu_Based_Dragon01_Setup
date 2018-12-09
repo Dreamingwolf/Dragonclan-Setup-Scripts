@@ -189,6 +189,10 @@ else
 	#Setting up additional PPAs and other Repositories
 		sudo chmod +x ./Ubuntu_PPA_Setup
 		sudo ./Ubuntu_PPA_Setup
+
+    #Add ssh key
+        eval "$(ssh-agent -s)"
+        ssh-add ~/.ssh/id_rsa
 	
 	#Cleanup
 		echo "Cleaning up"
