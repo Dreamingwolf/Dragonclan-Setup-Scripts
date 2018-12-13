@@ -183,8 +183,9 @@ else
         fi
 
 	#Update hosts file
-		echo "Updating the hosts file"
-		sudo mv -f ./Dragon01_hosts /etc/hosts
+        echo "Updating the hosts file"
+        sudo hostnamectl set-hostname Dragon01
+        sudo cp -f ./Dragon01_hosts /etc/hosts
 		
 	#Setting up additional PPAs and other Repositories
 		sudo chmod +x ./Ubuntu_PPA_Setup
