@@ -41,7 +41,7 @@ else
     #Updating /etc/fstab
         echo "Adding disks to /etc/fstab"
         echo "UUID=$HOMEUUID $HOMEPART $HOMEFSTAB users,exec,rw,auto,noatime 0 2
-        UUID=$BACKUPUUID /Backup $BACKUPFSTAB users,exec,rw,auto,noatime,uid=$( id -u david ),gid=$( id -g david ) 0 2
+        UUID=$BACKUPUUID /Backup $BACKUPFSTAB users,exec,rw,auto,noatime 0 2
         UUID=$STORAGEUUID /StorageBunker $STORAGEFSTAB users,exec,rw,auto,noatime,uid=$( id -u david ),gid=$( id -g david ) 0 2" | sudo tee -a /etc/fstab
 
 	#Setup home folder
