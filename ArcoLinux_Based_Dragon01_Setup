@@ -206,7 +206,7 @@ else
 
     #Add ssh key
     eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_rsa
+    ssh-add /home/david/.ssh/id_rsa
 
 	#Cleanup
 	echo "Cleaning up"
