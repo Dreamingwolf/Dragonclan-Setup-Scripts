@@ -20,6 +20,7 @@ else
         echo "Updating the hosts file"
         sudo hostnamectl set-hostname Dragon01
         sudo cp -f ./Dragon01_hosts /etc/hosts
+        
 	#Create mount points
 		echo "Creating needed mount points"
 		mkdir /home/david/.home
