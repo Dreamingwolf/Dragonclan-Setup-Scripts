@@ -2,8 +2,8 @@
 
 #Third party repos I use
 
-[aur-archlinux] 
-Server = https://repo.itmettke.de/aur/$repo/$arch
+#[aur-archlinux] 
+#Server = https://repo.itmettke.de/aur/$repo/$arch
 
 [qt-debug]
 Server = https://qutebrowser.org/qt-debug/$arch
@@ -49,6 +49,9 @@ Server = https://arch.miffe.org/$arch/
 [DEB_Arch_Extra]
 SigLevel = Optional TrustAll
 Server = https://mega.nz/linux/MEGAsync/Arch_Extra/$arch
+
+[sublime-text]
+Server = https://download.sublimetext.com/arch/stable/x86_64
 
 #[archstrike]
 #Include = /etc/pacman.d/archstrike-mirrorlist

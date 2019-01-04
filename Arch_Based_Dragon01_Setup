@@ -1,6 +1,6 @@
 #!/bin/bash
 # A setup script for arch based distros
-# Version 0.2.1
+# Version 0.2.2
 
 if [[ $EUID -ne 0 ]]; then
    	echo "This script must be run as root type: sudo ./arco_base_setup" 
@@ -189,9 +189,9 @@ else
 	echo "Updating and Upgrading"
     wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
     sudo tar -xvf ./yay-bin.tar.gz
-    cd yay-bin
+    cd yay-bin || return
     makepkg -i
-    cd ..
+    cd .. || return
     sudo rm -fR ./yay-bin
     fi
 	while read -r; do
@@ -207,6 +207,7 @@ else
     sudo pacman-key --lsign-key 4B4E7A9523ACD201
     sudo pacman-key --recv-keys 7448C890582975CD 
     sudo pacman-key --lsign-key 7448C890582975CD
+    curl -O https://download.sublimetext.com/sublimehq-pub.gpg && sudo pacman-key --add sublimehq-pub.gpg && sudo pacman-key --lsign-key 8A8F901A && rm sublimehq-pub.gpg
     sudo pacman -Sy reflector
 	sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
 	sudo pacman -Syy
