@@ -193,7 +193,6 @@ else
     makepkg -i
     cd .. || return
     sudo rm -fR ./yay-bin
-    fi
 	while read -r; do
         sudo tee -a /etc/pacman.conf
     done < "./arch_repos"
