@@ -1,6 +1,6 @@
 #!/bin/bash
 # Personal App Install File
-# ver. 0.1
+# ver. 0.5
 
 if [[ $EUID -ne 0 ]]; then
    	echo "This script must be run as root type: sudo ./arco_apps" 
@@ -47,14 +47,14 @@ else
     yay -S --needed --noconfirm python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
     yay -S --needed --noconfirm dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
     yay -S --needed --noconfirm python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile
-    yay -S --needed --noconfirm gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge
+    yay -S --needed --noconfirm gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge neofetch
     yay -S --needed --noconfirm steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
     yay -S --needed --noconfirm lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils
     yay -S --needed --noconfirm lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib
     yay -S --needed --noconfirm lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer
     yay -S --needed --noconfirm fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
     yay -S --needed --noconfirm kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2
-    yay -S --needed --noconfirm openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei
+    yay -S --needed --noconfirm openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
     sudo glib-compile-schemas /usr/share/glib-2.0/schemas
     sudo usermod -aG vboxusers david
 fi
