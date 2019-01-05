@@ -51,6 +51,6 @@ else
     yay -S --needed --noconfirm fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
     yay -S --needed --noconfirm kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2
     yay -S --needed --noconfirm openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei
-
+    sudo glib-compile-schemas /usr/share/glib-2.0/schemas
     sudo usermod -aG vboxusers david
 fi
