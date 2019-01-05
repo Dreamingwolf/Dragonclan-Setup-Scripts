@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
    	echo "This script must be run as root type: sudo ./arco_apps" 
    	exit 1
 else
-	while ! [ -x "$(command -v yay)" ]; do
+	if ! [ -x "$(command -v yay)" ]; then
 		echo "yay command isn't installed, so I will install it now."
 		wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
         sudo tar -xvf ./yay-bin.tar.gz
@@ -14,22 +14,12 @@ else
         makepkg -i
         cd .. || return
         sudo rm -fR ./yay-bin
-    done
-    if [ -x "$(command -v firefox)" ]; then
-    	sudo pacman -Rn --cascade firefox
     fi
-    if [ -x "$(command -v chromium)" ]; then
-    	sudo pacman -Rn --cascade chromium
-    fi
-    if [ -x "$(command -v dropbox)" ]; then
-    	sudo pacman -Rn --cascade dropbox
-    fi
-    if [ -x "$(command -v spotify)" ]; then
-    	sudo pacman -Rn --cascade spotify
-    fi
-    if [ -x "$(command -v vivaldi)" ]; then
-    	sudo pacman -Rn --cascade vivaldi-codecs-ffmpeg-extra-bin vivaldi
-    fi
+  	sudo pacman -Rn --cascade firefox
+   	sudo pacman -Rn --cascade chromium
+   	sudo pacman -Rn --cascade dropbox
+   	sudo pacman -Rn --cascade spotify
+   	sudo pacman -Rn --cascade vivaldi-codecs-ffmpeg-extra-bin vivaldi
     if [ -d "/home/david/.home/WinFonts" ]
         then
             sudo mkdir /usr/share/fonts/WindowsFonts
