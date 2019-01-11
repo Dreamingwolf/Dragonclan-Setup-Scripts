@@ -3,10 +3,10 @@
 # ~Dragonwolf
 # Version 0.2.2
 
-if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as root type: sudo ./Dragon01_Setup" 
-   	exit 1
-else
+    #Updating Sudoers File to Add NOPASSWD to User
+        read -r -s -p "Enter password for sudo: " SUDOPWD && printf "\n"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-install"
+
 	#Fetching Needed Files
 		echo "Fetching needed files"
 		cd /tmp || return
@@ -192,5 +192,3 @@ else
 
 	#Reboot Reminder
 		echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
-
-fi

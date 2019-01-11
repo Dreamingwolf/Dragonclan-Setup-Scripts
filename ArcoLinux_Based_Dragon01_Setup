@@ -4,7 +4,7 @@
 
     #Updating Sudoers File to Add NOPASSWD to User
         read -r -s -p "Enter password for sudo: " SUDOPWD && printf "\n"
-        echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- >> /etc/sudoers"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-install"
 
 	#Download needed files
 		echo "Downloading needed files"
