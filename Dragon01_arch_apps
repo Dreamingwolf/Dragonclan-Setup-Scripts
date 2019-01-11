@@ -48,5 +48,6 @@ else
     yay -S --needed gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
     sudo glib-compile-schemas /usr/share/glib-2.0/schemas
     sudo usermod -aG vboxusers david
+    sudo usermod -aG vboxfs david
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi

@@ -1,20 +1,16 @@
 #!/bin/bash
 # A setup script for arch based distros
-# Version 0.2.2
+# Version 1.0
 
-if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as root type: sudo ./arco_base_setup" 
-   	exit 1
-else
+    #Updating Sudoers File to Add NOPASSWD to User
+        read -r -s -p "Enter password for sudo: " SUDOPWD && printf "\n"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- >> /etc/sudoers"
+
 	#Download needed files
 		echo "Downloading needed files"
 		cd /tmp || return
 		wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/arch_repos
 		wget https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
-
-	#Update su permissions
-		echo "Updating sudoers file"
-		echo "david ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
 	#Update hosts file
         echo "Updating the hosts file"
@@ -29,7 +25,7 @@ else
 
     #Core Operations
         HOMEPART=/home/david/.home
-        HOMEDATA=/dev/nvme0n1p1
+        HOMEDATA=$( blkid -L Home )
         HOMEFSTAB=$( blkid -s TYPE -o value "$HOMEDATA" )
         HOMEUUID=$( blkid -s UUID -o value "$HOMEDATA" )
         
@@ -51,7 +47,7 @@ else
 		echo "Mounting, setting up, and linking home folder"
 
 	#Mount the UserData Partition to .home
-		sudo mount $HOMEDATA $HOMEPART
+		sudo mount "$HOMEDATA" "$HOMEPART"
 			
 	#Remove original folders & Install symbolic links
         if [ -d "$HOMEPART/Camera" ]
@@ -183,6 +179,7 @@ else
         makepkg -i
         cd .. || return
         sudo rm -fR ./yay-bin
+        cd /tmp || return
     	while read -r; do
             sudo tee -a /etc/pacman.conf
         done < "./arch_repos"
@@ -200,7 +197,31 @@ else
         sudo pacman -Sy reflector
     	sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
     	sudo pacman -Syy
-    	yay -S --needed nvidia-dkms nvidia-settings pass ruby pam-gnupg-git dmenu
+        yay --editmenu --nodiffmenu --save
+ 
+     # Overgrive prep
+        yay -S --needed libnotify python python2-pyinotify python2-pip python2-gobject libappindicator-gtk3
+        sudo pip2.7 install --upgrade google-api-python-client
+        sudo pip2.7 install --upgrade oauth2client
+
+    # Main program install commands
+        yay -S --needed linux-headers nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils pass ruby xorg-server-devel opencl-nvidia qrencode tk firefox-nightly thunderbird-nightly
+        yay -S --needed p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
+        yay -S --needed python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
+        yay -S --needed dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
+        yay -S --needed python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile
+        yay -S --needed gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge neofetch
+        yay -S --needed steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
+        yay -S --needed lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils
+        yay -S --needed lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib
+        yay -S --needed lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer
+        yay -S --needed fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
+        yay -S --needed kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2 curl
+        yay -S --needed openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
+        yay -S --needed gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
+        sudo glib-compile-schemas /usr/share/glib-2.0/schemas
+        sudo usermod -aG vboxusers david
+        sudo usermod -aG vboxfs david
     	yay -Syu --noconfirm
 
     #Add ssh key
@@ -213,6 +234,3 @@ else
     	sudo rm ./arch_repos
 
     	echo "DON'T FORGET TO REBOOT!"
-
-fi
-
