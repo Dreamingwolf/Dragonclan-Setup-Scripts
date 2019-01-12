@@ -15,11 +15,7 @@ else
         cd .. || return
         sudo rm -fR ./yay-bin
     fi
-  	sudo pacman -Rn --cascade firefox
-   	sudo pacman -Rn --cascade chromium
-   	sudo pacman -Rn --cascade dropbox
-   	sudo pacman -Rn --cascade spotify
-   	sudo pacman -Rn --cascade vivaldi-codecs-ffmpeg-extra-bin vivaldi
+    sudo pacman -Rn --cascade firefox chromium dropbox spotify vivaldi-codecs-ffmpeg-extra-bin vivaldi
     if [ -d "/home/david/.home/WinFonts" ]
         then
             sudo mkdir /usr/share/fonts/WindowsFonts

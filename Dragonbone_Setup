@@ -52,11 +52,7 @@
         sudo pip2.7 install --upgrade oauth2client
 
     # Main Program install commands
-        sudo pacman -Rn --cascade firefox
-        sudo pacman -Rn --cascade chromium
-        sudo pacman -Rn --cascade dropbox
-        sudo pacman -Rn --cascade spotify
-        sudo pacman -Rn --cascade vivaldi-codecs-ffmpeg-extra-bin vivaldi
+        sudo pacman -Rn --cascade firefox chromium dropbox spotify vivaldi-codecs-ffmpeg-extra-bin vivaldi
 	    yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly
 	    yay -S --needed p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
 	    yay -S --needed python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
