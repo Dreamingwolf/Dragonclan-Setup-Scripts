@@ -1,7 +1,7 @@
 #!/bin/bash
 # Personal setup script for my laptop computer
 # ~Dragonwolf
-# Version 2.1
+# Version 2.5
 
 
 	#Updating Sudoers File to Add NOPASSWD to User
@@ -199,6 +199,13 @@
         sudo pacman -Rn --cascade dropbox
         sudo pacman -Rn --cascade spotify
         sudo pacman -Rn --cascade vivaldi-codecs-ffmpeg-extra-bin vivaldi
+        if [ -d "/home/david/.home/WinFonts" ]
+            then
+                sudo mkdir /usr/share/fonts/WindowsFonts
+                sudo cp -fR /home/david/.home/WinFonts /usr/share/fonts/WindowsFonts
+                sudo chmod 755 /usr/share/fonts/WindowsFonts/*
+                sudo fc-cache -f
+        fi
 	    yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly
 	    yay -S --needed p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
 	    yay -S --needed python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
