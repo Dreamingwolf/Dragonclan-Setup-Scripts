@@ -33,7 +33,7 @@
         BACKUPFSTAB=$( blkid -s TYPE -o value "$BACKUPDATA" )
         BACKUPUUID=$( blkid -s UUID -o value "$BACKUPDATA" )
 
-        STORAGEDATA=$( blkid -L StorageBunker )
+        STORAGEDATA=$( blkid -L StorageB )
         STORAGEFSTAB=$( blkid -s TYPE -o value "$STORAGEDATA" )
         STORAGEUUID=$( blkid -s UUID -o value "$STORAGEDATA" )
 

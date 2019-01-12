@@ -26,7 +26,7 @@
 	
     #Core Operations
         HOMEPART=/home/david/.home
-        HOMEDATA=/dev/nvme0n1p1
+        HOMEDATA=$( blkid -L Home )
         HOMEFSTAB=$( blkid -s TYPE -o value "$HOMEDATA" )
         HOMEUUID=$( blkid -s UUID -o value "$HOMEDATA" )
         
@@ -34,7 +34,7 @@
         BACKUPFSTAB=$( blkid -s TYPE -o value "$BACKUPDATA" )
         BACKUPUUID=$( blkid -s UUID -o value "$BACKUPDATA" )
 
-        STORAGEDATA=$( blkid -L StorageBunker )
+        STORAGEDATA=$( blkid -L StorageB )
         STORAGEFSTAB=$( blkid -s TYPE -o value "$STORAGEDATA" )
         STORAGEUUID=$( blkid -s UUID -o value "$STORAGEDATA" )
 
@@ -48,7 +48,7 @@
 		echo "Mounting, setting up, and linking home folder"
 
 	#Mount the UserData Partition to .home
-        sudo mount $HOMEDATA $HOMEPART
+        sudo mount "$HOMEDATA" "$HOMEPART"
 			
 	#Remove original folders & Install symbolic links
         if [ -d "$HOMEPART/Camera" ]
