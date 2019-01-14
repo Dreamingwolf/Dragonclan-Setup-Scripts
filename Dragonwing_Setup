@@ -24,7 +24,7 @@
 
     #Core Operations
         HOMEPART=/home/david/.home
-        HOMEDATA=$( blkid -L Home )
+        HOMEDATA=$( blkid | awk '/PARTLABEL=\"Home\"/{sub(/[:]$/,"",$1); print $1}' )
         HOMEFSTAB=$( blkid -s TYPE -o value "$HOMEDATA" )
 		HOMEUUID=$( blkid -s UUID -o value "$HOMEDATA" )
         
