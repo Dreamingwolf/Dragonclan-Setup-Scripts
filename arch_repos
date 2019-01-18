@@ -19,9 +19,9 @@ Server = http://repo.archlinux.fr/$arch
 SigLevel = Never
 Server = https://pkgbuild.com/~heftig/repo/$arch
 
-[jkanetwork]
-SigLevel = Never
-Server = http://repo.jkanetwork.com/repo/$repo/
+#[jkanetwork]
+#SigLevel = Never
+#Server = http://repo.jkanetwork.com/repo/$repo/
 
 [mesa-git]
 SigLevel = Never
