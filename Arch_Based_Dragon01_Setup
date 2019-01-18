@@ -1,10 +1,12 @@
 #!/bin/bash
 # A setup script for arch based distros
-# Version 1.5
+# Version 1.6
 
     #Updating Sudoers File to Add NOPASSWD to User
-        read -r -s -p "Enter password for sudo: " SUDOPWD && printf "\n"
-        echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-install"
+        echo "Sudo password is required for certain commands in this script."
+        echo "Entering an incorrect password will cause the script to crash."
+        read -r -s -p "Enter password: " SUDOPWD && printf "\n"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
 
 	#Download needed files
 		echo "Downloading needed files"
@@ -25,23 +27,23 @@
 
     #Core Operations
         HOMEPART=/home/david/.home
-        HOMEDATA=$( blkid -L Home )
-        HOMEFSTAB=$( blkid -s TYPE -o value "$HOMEDATA" )
-        HOMEUUID=$( blkid -s UUID -o value "$HOMEDATA" )
+        HOMEDATA=$( sudo blkid --match-token PARTLABEL="Home" -o device )
+        HOMEFSTAB=$( sudo blkid -s TYPE -o value "$HOMEDATA" )
+        HOMEUUID=$( sudo blkid -s UUID -o value "$HOMEDATA" )
         
-        BACKUPDATA=$( blkid -L Backup )
-        BACKUPFSTAB=$( blkid -s TYPE -o value "$BACKUPDATA" )
-        BACKUPUUID=$( blkid -s UUID -o value "$BACKUPDATA" )
+        BACKUPDATA=$( sudo blkid --match-token PARTLABEL="Backup" -o device )
+        BACKUPFSTAB=$( sudo blkid -s TYPE -o value "$BACKUPDATA" )
+        BACKUPUUID=$( sudo blkid -s UUID -o value "$BACKUPDATA" )
 
-        STORAGEDATA=$( blkid -L StorageB )
-        STORAGEFSTAB=$( blkid -s TYPE -o value "$STORAGEDATA" )
-        STORAGEUUID=$( blkid -s UUID -o value "$STORAGEDATA" )
+        STORAGEDATA=$( sudo blkid --match-token PARTLABEL="StorageB" -o device )
+        STORAGEFSTAB=$( sudo blkid -s TYPE -o value "$STORAGEDATA" )
+        STORAGEUUID=$( sudo blkid -s UUID -o value "$STORAGEDATA" )
 
     #Updating /etc/fstab
         echo "Adding disks to /etc/fstab"
         echo "UUID=$HOMEUUID $HOMEPART $HOMEFSTAB users,exec,rw,auto,noatime 0 2
         UUID=$BACKUPUUID /Backup $BACKUPFSTAB users,exec,rw,auto,noatime 0 2
-        UUID=$STORAGEUUID /StorageBunker $STORAGEFSTAB users,exec,rw,auto,noatime,uid=$( id -u david ),gid=$( id -g david ) 0 2" | sudo tee -a /etc/fstab
+        UUID=$STORAGEUUID /StorageBunker $STORAGEFSTAB users,exec,rw,auto,noatime 0 2" | sudo tee -a /etc/fstab
 
 	#Setup home folder
 		echo "Mounting, setting up, and linking home folder"
@@ -222,7 +224,7 @@
         yay -S --needed steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
         yay -S --needed lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils
         yay -S --needed lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib
-        yay -S --needed lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer
+        yay -S --needed lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer rawtherapee
         yay -S --needed fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
         yay -S --needed kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2 curl
         yay -S --needed openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety

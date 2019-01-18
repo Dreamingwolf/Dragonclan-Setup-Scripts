@@ -1,12 +1,14 @@
 #!/bin/bash
 # Personal setup script for my laptop computer
 # ~Dragonwolf
-# Version 2.0
+# Version 2.1
 
 
 	#Updating Sudoers File to Add NOPASSWD to User
-		read -r -s -p "Enter password: " SUDOPWD && printf "\n"
-		echo "$SUDOPWD" | sudo -S sh -c "echo \"david ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-install"
+        echo "Sudo password is required for certain commands in this script."
+        echo "Entering an incorrect password will cause the script to crash."
+        read -r -s -p "Enter password: " SUDOPWD && printf "\n"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
 
 	#Fetching Needed Files
 		echo "Fetching needed files"
@@ -16,6 +18,7 @@
 
 	#Update hosts file
 		echo "Updating the hosts file"
+        sudo hostnamectl set-hostname Dragonbone
 		sudo mv -f ./Dragonbone_hosts /etc/hosts
 	
 	#Update and Upgrade
@@ -53,7 +56,7 @@
 
     # Main Program install commands
         sudo pacman -Rn --cascade firefox chromium dropbox spotify vivaldi-codecs-ffmpeg-extra-bin vivaldi
-	    yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly
+	    yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly rawtherapee
 	    yay -S --needed p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
 	    yay -S --needed python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
 	    yay -S --needed dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
