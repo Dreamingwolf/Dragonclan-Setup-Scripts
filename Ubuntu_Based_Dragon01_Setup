@@ -1,7 +1,7 @@
 #!/bin/bash
 # Personal setup script for my desktop computer
 # ~Dragonwolf
-# Version 1.0
+# Version 2.0
 
     #Updating Sudoers File to Add NOPASSWD to User
         echo "Sudo password is required for certain commands in this script."
@@ -10,10 +10,10 @@
         echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
 
 	#Fetching Needed Files
-		echo "Fetching needed files"
-		cd /tmp || return
-		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
-		wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Ubuntu_PPA_Setup
+        echo "Fetching needed files"
+        cd /tmp || return
+        wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
+        wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Ubuntu_PPA_Setup
 
     #Update hosts file
         echo "Updating the hosts file"
@@ -21,17 +21,17 @@
         sudo cp -f ./Dragon01_hosts /etc/hosts
 
 	#Setup Directories for Mounting
-		echo "Creating directories for mounting"
-		mkdir /home/david/.home
-		sudo mkdir /StorageBunker
-		sudo mkdir /Backup
-	
+        echo "Creating directories for mounting"
+        mkdir /home/david/.home
+        sudo mkdir /StorageBunker
+        sudo mkdir /Backup
+
     #Core Operations
         HOMEPART=/home/david/.home
         HOMEDATA=$( sudo blkid --match-token PARTLABEL="Home" -o device )
         HOMEFSTAB=$( sudo blkid -s TYPE -o value "$HOMEDATA" )
         HOMEUUID=$( sudo blkid -s UUID -o value "$HOMEDATA" )
-        
+
         BACKUPDATA=$( sudo blkid --match-token PARTLABEL="Backup" -o device )
         BACKUPFSTAB=$( sudo blkid -s TYPE -o value "$BACKUPDATA" )
         BACKUPUUID=$( sudo blkid -s UUID -o value "$BACKUPDATA" )
@@ -47,129 +47,105 @@
         UUID=$STORAGEUUID /StorageBunker $STORAGEFSTAB users,exec,rw,auto,noatime 0 2" | sudo tee -a /etc/fstab
 
 	#Setup home folder
-		echo "Mounting, setting up, and linking home folder"
+        echo "Mounting, setting up, and linking home folder"
 
 	#Mount the UserData Partition to .home
         sudo mount "$HOMEDATA" "$HOMEPART"
-			
+
 	#Remove original folders & Install symbolic links
-        if [ -d "$HOMEPART/Camera" ]
-        then
+        if [ -d "$HOMEPART/Camera" ]; then
             if [ -d "/home/david/Camera" ]; then sudo rm -Rf "/home/david/Camera"; fi
             sudo ln -s "$HOMEPART/Camera" "/home/david"
         fi
-        if [ -d "$HOMEPART/Documents" ]
-        then
+        if [ -d "$HOMEPART/Documents" ]; then
             if [ -d "/home/david/Documents" ]; then sudo rm -Rf "/home/david/Documents"; fi
             sudo ln -s "$HOMEPART/Documents" "/home/david"
         fi
-        if [ -d "$HOMEPART/Downloads" ]
-        then
+        if [ -d "$HOMEPART/Downloads" ]; then
             if [ -d "/home/david/Downloads" ]; then sudo rm -Rf "/home/david/Downloads"; fi
             sudo ln -s "$HOMEPART/Downloads" "/home/david"
         fi
-        if [ -d "$HOMEPART/Etcher" ]
-        then
+        if [ -d "$HOMEPART/Etcher" ]; then
             if [ -d "/home/david/Etcher" ]; then sudo rm -Rf "/home/david/Etcher"; fi
             sudo ln -s "$HOMEPART/Etcher" "/home/david"
         fi
-        if [ -d "$HOMEPART/Games" ]
-        then
+        if [ -d "$HOMEPART/Games" ]; then
             if [ -d "/home/david/Games" ]; then sudo rm -Rf "/home/david/Games"; fi
             sudo ln -s "$HOMEPART/Games" "/home/david"
         fi
-        if [ -d "$HOMEPART/Github" ]
-        then
+        if [ -d "$HOMEPART/Github" ]; then
             if [ -d "/home/david/Github" ]; then sudo rm -Rf "/home/david/Github"; fi
             sudo ln -s "$HOMEPART/Github" "/home/david"
         fi
-        if [ -d "$HOMEPART/Google_Drive" ]
-        then
+        if [ -d "$HOMEPART/Google_Drive" ]; then
             if [ -d "/home/david/Google_Drive" ]; then sudo rm -Rf "/home/david/Google_Drive"; fi
             sudo ln -s "$HOMEPART/Google_Drive" "/home/david"
         fi
-        if [ -d "$HOMEPART/Links" ]
-        then
+        if [ -d "$HOMEPART/Links" ]; then
             if [ -d "/home/david/Links" ]; then sudo rm -Rf "/home/david/Links"; fi
             sudo ln -s "$HOMEPART/Links" "/home/david"
         fi
-        if [ -d "$HOMEPART/Music" ]
-        then
+        if [ -d "$HOMEPART/Music" ]; then
             if [ -d "/home/david/Music" ]; then sudo rm -Rf "/home/david/Music"; fi
             sudo ln -s "$HOMEPART/Music" "/home/david"
         fi
-        if [ -d "$HOMEPART/Pictures" ]
-        then
+        if [ -d "$HOMEPART/Pictures" ]; then
             if [ -d "/home/david/Pictures" ]; then sudo rm -Rf "/home/david/Pictures"; fi
             sudo ln -s "$HOMEPART/Pictures" "/home/david"
         fi
-        if [ -d "$HOMEPART/Scripts" ]
-        then
+        if [ -d "$HOMEPART/Scripts" ]; then
             if [ -d "/home/david/Scripts" ]; then sudo rm -Rf "/home/david/Scripts"; fi
             sudo ln -s "$HOMEPART/Scripts" "/home/david"
         fi
-        if [ -d "$HOMEPART/Sync" ]
-        then
+        if [ -d "$HOMEPART/Sync" ]; then
             if [ -d "/home/david/Sync" ]; then sudo rm -Rf "/home/david/Sync"; fi
             sudo ln -s "$HOMEPART/Sync" "/home/david"
         fi
-        if [ -d "$HOMEPART/Videos" ]
-        then
+        if [ -d "$HOMEPART/Videos" ]; then
             if [ -d "/home/david/Videos" ]; then sudo rm -Rf "/home/david/Videos"; fi
             sudo ln -s "$HOMEPART/Videos" "/home/david"
         fi
-        if [ -d "$HOMEPART/VPNac" ]
-        then
+        if [ -d "$HOMEPART/VPNac" ]; then
             if [ -d "/home/david/VPNac" ]; then sudo rm -Rf "/home/david/VPNac"; fi
             sudo ln -s "$HOMEPART/VPNac" "/home/david"
         fi
-        if [ -d "$HOMEPART/Wallpapers" ]
-        then
+        if [ -d "$HOMEPART/Wallpapers" ]; then
             if [ -d "/home/david/Wallpapers" ]; then sudo rm -Rf "/home/david/Wallpapers"; fi
             sudo ln -s "$HOMEPART/Wallpapers" "/home/david"
         fi
-        if [ -d "$HOMEPART/Working" ]
-        then
+        if [ -d "$HOMEPART/Working" ]; then
             if [ -d "/home/david/Working" ]; then sudo rm -Rf "/home/david/Working"; fi
             sudo ln -s "$HOMEPART/Working" "/home/david"
         fi
-        if [ -d "$HOMEPART/.gnupg" ]
-        then
+        if [ -d "$HOMEPART/.gnupg" ]; then
             if [ -d "/home/david/.gnupg" ]; then sudo rm -Rf "/home/david/.gnupg"; fi
             sudo ln -s "$HOMEPART/.gnupg" "/home/david"
         fi
-        if [ -d "$HOMEPART/.gdfuse" ]
-        then
+        if [ -d "$HOMEPART/.gdfuse" ]; then
             if [ -d "/home/david/.gdfuse" ]; then sudo rm -Rf "/home/david/.gdfuse"; fi
             sudo ln -s "$HOMEPART/.gdfuse" "/home/david"
         fi
-        if [ -d "$HOMEPART/.mozilla" ]
-        then
+        if [ -d "$HOMEPART/.mozilla" ]; then
             if [ -d "/home/david/.mozilla" ]; then sudo rm -Rf "/home/david/.mozilla"; fi
             sudo ln -s "$HOMEPART/.mozilla" "/home/david"
         fi
-        if [ -d "$HOMEPART/.ssh" ]
-        then
+        if [ -d "$HOMEPART/.ssh" ]; then
             if [ -d "/home/david/.ssh" ]; then sudo rm -Rf "/home/david/.ssh"; fi
             sudo ln -s "$HOMEPART/.ssh" "/home/david"
         fi
-        if [ -d "$HOMEPART/.steam" ]
-        then
+        if [ -d "$HOMEPART/.steam" ]; then
             if [ -d "/home/david/.steam" ]; then sudo rm -Rf "/home/david/.steam"; fi
             sudo ln -s "$HOMEPART/.steam" "/home/david"
         fi
-        if [ -d "$HOMEPART/.thunderbird" ]
-        then
+        if [ -d "$HOMEPART/.thunderbird" ]; then
             if [ -d "/home/david/.thunderbird" ]; then sudo rm -Rf "/home/david/.thunderbird"; fi
             sudo ln -s "$HOMEPART/.thunderbird" "/home/david"
         fi
-        if [ -d "$HOMEPART/.zoom" ]
-        then
+        if [ -d "$HOMEPART/.zoom" ]; then
             if [ -d "/home/david/.zoom" ]; then sudo rm -Rf "/home/david/.zoom"; fi
             sudo ln -s "$HOMEPART/.zoom" "/home/david"
         fi
-        if [ -f "$HOMEPART/.pam-gnupg" ]
-        then
+        if [ -f "$HOMEPART/.pam-gnupg" ]; then
             if [ -f "/home/david/.pam-gnupg" ]; then sudo rm -f "/home/david/.pam-gnupg"; fi
             sudo ln -s "$HOMEPART/.pam-gnupg" "/home/david"
         fi
@@ -178,10 +154,10 @@
         echo "Updating the hosts file"
         sudo hostnamectl set-hostname Dragon01
         sudo cp -f ./Dragon01_hosts /etc/hosts
-		
+
 	#Setting up additional PPAs and other Repositories
-		sudo chmod +x ./Ubuntu_PPA_Setup
-		sudo ./Ubuntu_PPA_Setup
+        sudo chmod +x ./Ubuntu_PPA_Setup
+        sudo ./Ubuntu_PPA_Setup
 
     #Install additional software
         wget https://www.thefanclub.co.za/sites/default/files/public/overgrive/overgrive_3.2.3_all.deb
@@ -209,11 +185,11 @@
     #Add ssh key
         eval "$(ssh-agent -s)"
         ssh-add /home/david/.ssh/id_rsa
-	
+
 	#Cleanup
-		echo "Cleaning up"
-		sudo rm ./Dragon01_hosts
-		sudo rm ./Ubuntu_PPA_Setup
+        echo "Cleaning up"
+        sudo rm ./Dragon01_hosts
+        sudo rm ./Ubuntu_PPA_Setup
 
 	#Reboot Reminder
-		echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
+        echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
