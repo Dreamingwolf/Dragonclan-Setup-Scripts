@@ -1,12 +1,20 @@
 #!/bin/bash
 # A setup script for arch based distros
-# Version 2.0
+# Version 2.1
 
     #Updating Sudoers File to Add NOPASSWD to User
         echo "Sudo password is required for certain commands in this script."
         echo "Entering an incorrect password will cause the script to crash."
         read -r -s -p "Enter password: " SUDOPWD && printf "\n"
         echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
+
+    #Making sure yay-bin is installed
+        wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
+        sudo tar -xvf ./yay-bin.tar.gz
+        cd yay-bin || return
+        makepkg -i
+        cd .. || return
+        sudo rm -fR ./yay-bin
 
 	#Download needed files
 		echo "Downloading needed files"
@@ -175,12 +183,6 @@
 
 	#Update and Upgrade
     	echo "Updating and Upgrading"
-        wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
-        sudo tar -xvf ./yay-bin.tar.gz
-        cd yay-bin || return
-        makepkg -i
-        cd .. || return
-        sudo rm -fR ./yay-bin
         cd /tmp || return
     	while read -r; do
             sudo tee -a /etc/pacman.conf
