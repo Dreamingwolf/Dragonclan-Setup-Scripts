@@ -1,0 +1,8 @@
+blacklist	b43legacy
+blacklist	brcmfmac
+blacklist	brcmsmac
+blacklist	broadcom-wl
+blacklist	broadcom-wl-dkms
+blacklist	bcm43xx
+blacklist	wl
+blacklist	bcma
