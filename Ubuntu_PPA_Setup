@@ -1,12 +1,9 @@
 #!/bin/bash
 # Ubuntu and Derivatives PPA Setup Script
 # Dreamingwolf
-# Ver. 0.1
+# Ver. 0.2
 
-if [[ $EUID -ne 0 ]]; then
-   	echo "This script must be run as root type: sudo ./Ubuntu_PPA_Setup" 
-   	exit 1
-else
+
     # Warning
         echo "BE WARNED - Not all PPAs have release pages for all versions of Ubuntu. Be sure to verify and correct any issues after installation!"
 
@@ -140,7 +137,8 @@ else
 				#Virtualbox
 				echo "Installing Virtualbox Repository"
 				sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
-                wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+				wget -q -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+				wget -q -O - https://www.virtualbox.org/download/oracle_vbox.asc | sudo apt-key add -
 				;;
 			17)
 				#Visual Studio Code
@@ -217,5 +215,3 @@ else
     # Updating the Cache after all PPAs have been set up.
         echo "Updating the Apt Cache. Double check for any problems!"
         sudo apt update
-
-fi
