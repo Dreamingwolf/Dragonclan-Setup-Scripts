@@ -1,0 +1,120 @@
+#!/bin/bash
+# Personal setup script for my desktop computer
+# ~David F Muller
+# Version 3.0
+
+    #Function that will be used to simlink Home folders
+        symlink_setup () {
+            if [ -e "$HOMEPART/$1" ]; then
+                if [ -e "/home/david/$1" ]; then
+                    sudo rm -Rf "/home/david/$1"; fi
+            fi
+            sudo ln -s "$HOMEPART/$1" "/home/david";
+        }
+
+    #Array to list home folders requiring simlinking
+        home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
+            'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
+            '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
+
+    #Updating Sudoers File to Add NOPASSWD to User
+        echo "Sudo password is required for certain commands in this script."
+        echo "Entering an incorrect password will cause the script to crash."
+        read -r -s -p "Enter password: " SUDOPWD && printf "\n"
+        echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
+
+	#Fetching Needed Files
+        echo "Fetching needed files"
+        cd /tmp || return
+        wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
+        wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Ubuntu_PPA_Setup
+
+    #Update hosts file
+        echo "Updating the hosts file"
+        sudo hostnamectl set-hostname Dragon01
+        sudo cp -f ./Dragon01_hosts /etc/hosts
+
+	#Setup Directories for Mounting
+        echo "Creating directories for mounting"
+        mkdir /home/david/.home
+        sudo mkdir /StorageBunker
+        sudo mkdir /Backup
+
+    #Core Operations
+        HOMEPART=/home/david/.home
+        HOMEDATA=$( sudo blkid --match-token PARTLABEL="Home" -o device )
+        HOMEFSTAB=$( sudo blkid -s TYPE -o value "$HOMEDATA" )
+        HOMEUUID=$( sudo blkid -s UUID -o value "$HOMEDATA" )
+
+        BACKUPDATA=$( sudo blkid --match-token PARTLABEL="Backup" -o device )
+        BACKUPFSTAB=$( sudo blkid -s TYPE -o value "$BACKUPDATA" )
+        BACKUPUUID=$( sudo blkid -s UUID -o value "$BACKUPDATA" )
+
+        STORAGEDATA=$( sudo blkid --match-token PARTLABEL="StorageB" -o device )
+        STORAGEFSTAB=$( sudo blkid -s TYPE -o value "$STORAGEDATA" )
+        STORAGEUUID=$( sudo blkid -s UUID -o value "$STORAGEDATA" )
+
+    #Updating /etc/fstab
+        echo "Adding disks to /etc/fstab"
+        echo "UUID=$HOMEUUID $HOMEPART $HOMEFSTAB users,exec,rw,auto,noatime 0 2
+        UUID=$BACKUPUUID /Backup $BACKUPFSTAB users,exec,rw,auto,noatime 0 2
+        UUID=$STORAGEUUID /StorageBunker $STORAGEFSTAB users,exec,rw,auto,noatime 0 2" | sudo tee -a /etc/fstab
+
+	#Setup home folder
+        echo "Mounting, setting up, and linking home folder"
+
+	#Mount the UserData Partition to .home
+        sudo mount "$HOMEDATA" "$HOMEPART"
+
+	#Remove original folders & Install symbolic links
+        for i in "${home_folders[@]}"; do
+            symlink_setup "$i"
+        done
+
+    #Verify that all userfiles are mine
+        sudo chown -R david:david /home/david
+
+	#Update hosts file
+        echo "Updating the hosts file"
+        sudo hostnamectl set-hostname Dragon01
+        sudo cp -f ./Dragon01_hosts /etc/hosts
+
+	#Setting up additional PPAs and other Repositories
+        sudo chmod +x ./Ubuntu_PPA_Setup
+        sudo ./Ubuntu_PPA_Setup
+
+    #Install additional software
+        wget https://www.thefanclub.co.za/sites/default/files/public/overgrive/overgrive_3.2.3_all.deb
+        sudo apt install python-oauth2client
+        sudo pip install --upgrade google-api-python-client
+        sudo dpkg -i overgrive_3.2.3_all.deb
+        sudo apt install linux-headers nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils pass ruby xorg-server-devel opencl-nvidia qrencode tk firefox-nightly thunderbird-nightly
+        sudo apt install p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
+        sudo apt install python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
+        sudo apt install dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
+        sudo apt install python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile
+        sudo apt install gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge neofetch
+        sudo apt install steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
+        sudo apt install lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils
+        sudo apt install lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib
+        sudo apt install lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer rawtherapee
+        sudo apt install fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
+        sudo apt install kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2 curl
+        sudo apt install openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
+        sudo apt install gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
+        sudo glib-compile-schemas /usr/share/glib-2.0/schemas
+        sudo usermod -aG vboxusers david
+        sudo usermod -aG vboxfs david
+
+     #Add ssh key
+        eval "$(ssh-agent -s)"
+        sudo chmod 400 /home/david/.ssh/id_rsa
+        ssh-add /home/david/.ssh/id_rsa
+
+	#Cleanup
+        echo "Cleaning up"
+        sudo rm ./Dragon01_hosts
+        sudo rm ./Ubuntu_PPA_Setup
+
+	#Reboot Reminder
+        echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
