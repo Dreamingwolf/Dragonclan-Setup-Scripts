@@ -1,20 +1,22 @@
 #!/bin/bash
 # A setup script for arch based distros
-# Version 3.0
+# ~David F Muller
+# Version 3.1
 
     #Function that will be used to simlink Home folders
-    symlink_setup () {
-        if [ -e "$HOMEPART/$1" ]; then
-            if [ -e "/home/david/$1" ]; then
-                sudo rm -Rf "/home/david/$1"; fi
-        fi
-        sudo ln -s "$HOMEPART/$1" "/home/david";
-    }
+        symlink_setup () {
+            if [ -e "$HOMEPART/$1" ]; then
+                if [ -e "/home/david/$1" ]; then
+                    sudo rm -Rf "/home/david/$1"; fi
+                sudo ln -s "$HOMEPART/$1" "/home/david";
+            else echo "$1 not found in $HOMEPART"
+            fi
+        }
 
     #Array to list home folders requiring simlinking
-    home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
-        'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
-        '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
+        home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
+            'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
+            '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
 
     #Updating Sudoers File to Add NOPASSWD to User
         echo "Sudo password is required for certain commands in this script."

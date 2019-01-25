@@ -1,16 +1,17 @@
 #!/bin/bash
 # Personal setup script for my desktop computer
 # ~David F Muller
-# Version 3.0
+# Version 3.1
 
     #Function that will be used to simlink Home folders
-        symlink_setup () {
-            if [ -e "$HOMEPART/$1" ]; then
-                if [ -e "/home/david/$1" ]; then
-                    sudo rm -Rf "/home/david/$1"; fi
-            fi
+    symlink_setup () {
+        if [ -e "$HOMEPART/$1" ]; then
+            if [ -e "/home/david/$1" ]; then
+                sudo rm -Rf "/home/david/$1"; fi
             sudo ln -s "$HOMEPART/$1" "/home/david";
-        }
+        else echo "$1 not found in $HOMEPART"
+        fi
+    }
 
     #Array to list home folders requiring simlinking
         home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'

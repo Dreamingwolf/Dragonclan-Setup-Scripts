@@ -1,15 +1,16 @@
 #!/bin/bash
 # Personal setup script for my laptop computer
-# ~Dragonwolf
-# Version 3.0
+# ~David F Muller
+# Version 3.1
 
     #Function that will be used to simlink Home folders
     symlink_setup () {
         if [ -e "$HOMEPART/$1" ]; then
             if [ -e "/home/david/$1" ]; then
                 sudo rm -Rf "/home/david/$1"; fi
+            sudo ln -s "$HOMEPART/$1" "/home/david";
+        else echo "$1 not found in $HOMEPART"
         fi
-        sudo ln -s "$HOMEPART/$1" "/home/david";
     }
 
     #Array to list home folders requiring simlinking
