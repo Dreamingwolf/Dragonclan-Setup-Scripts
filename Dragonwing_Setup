@@ -1,7 +1,7 @@
 #!/bin/bash
 # Personal setup script for my laptop computer
 # ~David F Muller
-# Version 3.1
+# Version 3.2
 
     #Function that will be used to simlink Home folders
     symlink_setup () {
@@ -69,7 +69,8 @@
         done
 
    #Verify that all userfiles are mine
-        sudo chown -R david:david /home/david
+        sudo chown -R david:david /home/david/*
+        sudo chmod -R 777 /home/david/*
 
 	#Update and Upgrade
         echo "Updating and Upgrading"
@@ -121,8 +122,8 @@
         yay -S --needed openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
         yay -S --needed gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
-        sudo usermod -aG vboxusers david
-        sudo usermod -aG vboxfs david
+        getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
+        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
         yay -Syu
 
     #Add ssh key

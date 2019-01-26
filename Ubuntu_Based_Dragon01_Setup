@@ -1,18 +1,27 @@
 #!/bin/bash
 # Personal setup script for my desktop computer
 # ~David F Muller
-# Version 3.1
+# Version 3.2
 
     #Function that will be used to simlink Home folders
-    symlink_setup () {
-        if [ -e "$HOMEPART/$1" ]; then
-            if [ -e "/home/david/$1" ]; then
-                sudo rm -Rf "/home/david/$1"; fi
-            sudo ln -s "$HOMEPART/$1" "/home/david";
-        else echo "$1 not found in $HOMEPART"
-        fi
-    }
+        symlink_setup () {
+            if [ -e "$HOMEPART/$1" ]; then
+                if [ -e "/home/david/$1" ]; then
+                    sudo rm -Rf "/home/david/$1"; fi
+                sudo ln -s "$HOMEPART/$1" "/home/david";
+            else echo "$1 not found in $HOMEPART"
+            fi
+        }
 
+    #Function to set up the PPAs I use
+        ppa_setup () {
+            sudo add-apt-repository -yn "ppa:$1"
+        }
+
+    #Array to list PPAs for install
+        ubuntu_ppas=('canonical-kernal-team/ppa' 'danielrichter2007/grub-customizer' 'graphics-drivers/ppa'
+            'linuxuprising/java' 'ubuntu-mozilla-daily/ppa' 'mozillateam/thunderbird-next' 'obsproject/obs-studio'
+            'otto-kesselgulasch/gimp' 'teejee2008/ppa' 'webupd8team/y-ppa-manager')
     #Array to list home folders requiring simlinking
         home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
             'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
@@ -28,7 +37,6 @@
         echo "Fetching needed files"
         cd /tmp || return
         wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Dragon01_hosts
-        wget  https://github.com/Dreamingwolf/Setup-Scripts/raw/master/Ubuntu_PPA_Setup
 
     #Update hosts file
         echo "Updating the hosts file"
@@ -72,40 +80,65 @@
             symlink_setup "$i"
         done
 
+    #Install PPAs for expanded app access
+        for i in "${ubuntu_ppas[@]}"; do
+            ppa_setup "$i"
+        done
+        #Etcher
+        echo "deb https://dl.bintray.com/resin-io/debian stable etcher" | sudo tee /etc/apt/sources.list.d/etcher.list
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 379CE192D401AB61
+        #Lutris
+        ver=$(lsb_release -sr); if [ "$ver" != "19.04" ] && [ "$ver" != "18.10" ] && [ "$ver" != "18.04" ] && [ "$ver" != "16.04" ]; then ver=18.04; fi
+        echo "deb http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/ ./" | sudo tee /etc/apt/sources.list.d/lutris.list
+        wget -q http://download.opensuse.org/repositories/home:/strycore/xUbuntu_$ver/Release.key -O- | sudo apt-key add -
+        #Key for steam (In case it's needed later)
+        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B05498B7
+        #Virtualbox
+        sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
+        wget -q -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+        wget -q -O - https://www.virtualbox.org/download/oracle_vbox.asc | sudo apt-key add -
+
     #Verify that all userfiles are mine
-        sudo chown -R david:david /home/david
+        sudo chown -R david:david /home/david/*
+        sudo chmod -R 777 /home/david/*
 
 	#Update hosts file
         echo "Updating the hosts file"
         sudo hostnamectl set-hostname Dragon01
         sudo cp -f ./Dragon01_hosts /etc/hosts
 
-	#Setting up additional PPAs and other Repositories
-        sudo chmod +x ./Ubuntu_PPA_Setup
-        sudo ./Ubuntu_PPA_Setup
-
     #Install additional software
+        sudo dpkg --add-architecture i386
+        #Overgrive
         wget https://www.thefanclub.co.za/sites/default/files/public/overgrive/overgrive_3.2.3_all.deb
         sudo apt install python-oauth2client
         sudo pip install --upgrade google-api-python-client
         sudo dpkg -i overgrive_3.2.3_all.deb
-        sudo apt install linux-headers nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils pass ruby xorg-server-devel opencl-nvidia qrencode tk firefox-nightly thunderbird-nightly
+        sudo apt --fix-broken install -y
+        #Steam
+        wget https://steamcdn-a.akamaihd.net/client/installer/steam.deb
+        sudo dpkg -i steam.deb
+        sudo apt --fix-broken install -y
+        #Other
+        sudo apt install linux-headers pass ruby xorg-server-devel qrencode tk firefox-trunk thunderbird
         sudo apt install p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
         sudo apt install python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
         sudo apt install dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
         sudo apt install python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile
-        sudo apt install gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge neofetch
-        sudo apt install steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
-        sudo apt install lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils
-        sudo apt install lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib
-        sudo apt install lib32-sdl lib32-fluidsynth lib32-opencl-driver lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer rawtherapee
+        sudo apt install gnome-boxes libvirt virtualbox-6.0 sublime-text sublime-merge neofetch
+        sudo apt install pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
+        sudo apt install mesa-vdpau:i386 libpulse:i386 jack2:i386 libsamplerate:i386 speex:i386 giflib:i386 libldap:i386 gnutls:i386 mpg123:i386 openal:i386 v4l-utils:i386
+        sudo apt install libxcomposite:i386 libxinerama:i386 opencl-icd-loader opencl-icd-loader:i386 libxslt:i386 gst-plugins-base-libs:i386 python2-pygments python2-rdflib
+        sudo apt install sdl:i386 fluidsynth:i386 opencl-driver:i386 lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer rawtherapee
         sudo apt install fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
         sudo apt install kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2 curl
         sudo apt install openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
         sudo apt install gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
-        sudo usermod -aG vboxusers david
-        sudo usermod -aG vboxfs david
+        getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
+        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
+        sudo rm ./overgrive_3.2.3_all.deb
+        sudo rm ./steam.deb
 
      #Add ssh key
         eval "$(ssh-agent -s)"
@@ -115,7 +148,6 @@
 	#Cleanup
         echo "Cleaning up"
         sudo rm ./Dragon01_hosts
-        sudo rm ./Ubuntu_PPA_Setup
 
 	#Reboot Reminder
         echo "Don't forget to reboot before updating to assure proper disk mounting!!!"
