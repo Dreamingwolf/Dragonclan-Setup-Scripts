@@ -136,6 +136,7 @@
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
         getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
         getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
+        yay -Syu
 
     #Add ssh key
         eval "$(ssh-agent -s)"
