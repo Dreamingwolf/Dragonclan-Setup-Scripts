@@ -102,6 +102,7 @@
         sudo pacman-key --recv-keys 7448C890582975CD
         sudo pacman-key --lsign-key 7448C890582975CD
         curl -O https://download.sublimetext.com/sublimehq-pub.gpg && sudo pacman-key --add sublimehq-pub.gpg && sudo pacman-key --lsign-key 8A8F901A && rm sublimehq-pub.gpg
+        echo -e "\n[sublime-text]\nServer = https://download.sublimetext.com/arch/stable/x86_64" | sudo tee -a /etc/pacman.conf
         sudo pacman -Sy --needed reflector
         sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist
         sudo pacman -Syy
@@ -125,7 +126,7 @@
             python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit \
             dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit \
             python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile \
-            gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text-dev sublime-merge neofetch \
+            gnome-boxes libvirt virtualbox virtualbox-guest-dkms virtualbox-guest-iso virtualbox-guest-utils virtualbox-host-dkms sublime-text sublime-merge neofetch \
             steam steam-fonts pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio \
             lib32-mesa-vdpau lib32-libpulse lib32-jack lib32-libsamplerate lib32-speex lib32-giflib lib32-libldap lib32-gnutls lib32-mpg123 lib32-openal lib32-v4l-utils \
             lib32-libxcomposite lib32-libxinerama opencl-icd-loader lib32-opencl-icd-loader lib32-libxslt lib32-gst-plugins-base-libs python2-pygments python2-rdflib \

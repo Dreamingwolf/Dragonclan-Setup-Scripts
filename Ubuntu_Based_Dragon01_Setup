@@ -97,18 +97,18 @@
         sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list.d/virtualbox.list'
         wget -q -O - https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
         wget -q -O - https://www.virtualbox.org/download/oracle_vbox.asc | sudo apt-key add -
+        #Sublime Text
+        sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+        curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
     #Verify that all userfiles are mine
         sudo chown -R david:david /home/david/*
         sudo chmod -R 777 /home/david/*
 
-	#Update hosts file
-        echo "Updating the hosts file"
-        sudo hostnamectl set-hostname Dragon01
-        sudo cp -f ./Dragon01_hosts /etc/hosts
-
     #Install additional software
         sudo dpkg --add-architecture i386
+        sudo apt update
         #Overgrive
         wget https://www.thefanclub.co.za/sites/default/files/public/overgrive/overgrive_3.2.3_all.deb
         sudo apt install python-oauth2client
@@ -120,20 +120,16 @@
         sudo dpkg -i steam.deb
         sudo apt --fix-broken install -y
         #Other
-        sudo apt install linux-headers pass ruby xorg-server-devel qrencode tk firefox-trunk thunderbird
-        sudo apt install p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer
-        sudo apt install python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit
-        sudo apt install dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit
-        sudo apt install python-opengl qt5-xmlpatterns qt5-serialport qt5-websockets qt5-connectivity qt5-networkauth kimageformats khtml libappimage clang botan kde-cli-tools opusfile
-        sudo apt install gnome-boxes libvirt virtualbox-6.0 sublime-text sublime-merge neofetch
-        sudo apt install pidgin-opensteamworks linux-steam-integration sc-controller-git steamcurses-git proton-git python2-steamodd protonfixes-git gimp obs-studio
-        sudo apt install mesa-vdpau:i386 libpulse:i386 jack2:i386 libsamplerate:i386 speex:i386 giflib:i386 libldap:i386 gnutls:i386 mpg123:i386 openal:i386 v4l-utils:i386
-        sudo apt install libxcomposite:i386 libxinerama:i386 opencl-icd-loader opencl-icd-loader:i386 libxslt:i386 gst-plugins-base-libs:i386 python2-pygments python2-rdflib
-        sudo apt install sdl:i386 fluidsynth:i386 opencl-driver:i386 lutris hexchat shotwell audacity reaper-bin guvcview jdk-openjdk java-rhino catfish grub-customizer rawtherapee
-        sudo apt install fusesmb samba cifs-utils exfat-utils ntfs-3g-fuse engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane xsane-gimp
-        sudo apt install kipi-plugins kamera kdegraphics-mobipocket chmlib calligra libmediawiki libkvkontakte libwpg libwps libvisio libetonyek pstoedit openjpeg libgit2 curl
-        sudo apt install openshot simplescreenrecorder libreoffice-fresh libmythes beanshell shellcheck unixodbc postgresql-libs coin-or-mp wqy-zenhei redshift numlockx variety
-        sudo apt install gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
+        sudo apt install linux-headers pass ruby qrencode tk firefox-trunk thunderbird p7zip smplayer smplayer-themes smtube youtube-dl mplayer \
+        python-pyqt5 drkonqi flite kwalletmanager kio-extras kdoctools catdoc kdeconnect sox dvdauthor dvgrab recordmydesktop \
+        simplescreenrecorder xine-ui dvd+rw-tools vcdimager cdrdao transcode suckless-tools luajit python-opengl clang botan kde-cli-tools \
+        gnome-boxes virtualbox-6.0 sublime-text sublime-merge neofetch steam gimp obs-studio lutris hexchat shotwell audacity guvcview catfish \
+        grub-customizer rawtherapee kipi-plugins kamera kdegraphics-mobipocket calligra pstoedit \
+        fusesmb samba cifs-utils exfat-utils engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane \
+        openshot simplescreenrecorder shellcheck unixodbc redshift numlockx variety \
+        gv ebtables bridge-utils radvd ceph terminator zsh
+        #mesa-vdpau:i386 libpulse:i386 jack2:i386 libsamplerate:i386 speex:i386 giflib:i386 libldap:i386 gnutls:i386 mpg123:i386 openal:i386 v4l-utils:i386 \
+        #libxcomposite:i386 libxinerama:i386 opencl-icd-loader opencl-icd-loader:i386 libxslt:i386 gst-plugins-base-libs:i386 sdl:i386 fluidsynth:i386 opencl-driver:i386 
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
         getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
         getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
