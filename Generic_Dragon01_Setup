@@ -42,15 +42,15 @@
 
 	#Core Operations
     HOMEPART=/home/david/.home
-    HOMEDATA=$( sudo blkid --match-token PARTLABEL="Home" -o device )
+    HOMEDATA=$( sudo blkid -t PARTLABEL="Home" -o device )
     HOMEFSTAB=$( sudo blkid -s TYPE -o value "$HOMEDATA" )
     HOMEUUID=$( sudo blkid -s UUID -o value "$HOMEDATA" )
 
-    BACKUPDATA=$( sudo blkid --match-token PARTLABEL="Backup" -o device )
+    BACKUPDATA=$( sudo blkid -t PARTLABEL="Backup" -o device )
     BACKUPFSTAB=$( sudo blkid -s TYPE -o value "$BACKUPDATA" )
     BACKUPUUID=$( sudo blkid -s UUID -o value "$BACKUPDATA" )
 
-    STORAGEDATA=$( sudo blkid --match-token PARTLABEL="StorageB" -o device )
+    STORAGEDATA=$( sudo blkid -t PARTLABEL="StorageB" -o device )
     STORAGEFSTAB=$( sudo blkid -s TYPE -o value "$STORAGEDATA" )
     STORAGEUUID=$( sudo blkid -s UUID -o value "$STORAGEDATA" )
 

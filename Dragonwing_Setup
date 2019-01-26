@@ -49,7 +49,7 @@
 
     #Core Operations
         HOMEPART=/home/david/.home
-        HOMEDATA=$( sudo blkid --match-token PARTLABEL="Home" -o device )
+        HOMEDATA=$( sudo blkid -t PARTLABEL="Home" -o device )
         HOMEFSTAB=$( sudo blkid -s TYPE -o value "$HOMEDATA" )
         HOMEUUID=$( sudo blkid -s UUID -o value "$HOMEDATA" )
 
