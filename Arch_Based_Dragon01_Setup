@@ -120,7 +120,7 @@
                 sudo chmod 755 /usr/share/fonts/WindowsFonts/*
                 sudo fc-cache -f
         fi
-        yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly rawtherapee \
+        yay -S --needed linux-headers nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly rawtherapee \
             p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer \
             python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit \
             dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit \
