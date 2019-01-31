@@ -1,7 +1,60 @@
 #!/bin/bash
 # A generic setup script for Dragon01
 # ~David F Muller
-# Version 3.2
+# Version 3.2.1
+
+    ##Determine Base Distro
+    declare -A osInfo;
+    osInfo[/etc/redhat-release]=dnf
+    osInfo[/etc/arch-release]=pacman
+    osInfo[/etc/gentoo-release]=emerge
+    osInfo[SUSe-release]=zypper
+    osInfo[/etc/debian_version]=apt
+
+    for i in "${!osInfo[@]}"; do
+        if [[ -f "$i" ]]; then
+            #Set the Base Install Command
+            BaInCo="${osInfo[$i]}"
+        fi
+    done
+
+    if [[ "$BaInCo" = "pacman" ]]; then
+            #Making sure yay-bin is installed
+            mkdir ./Installer
+            cd Installer || return
+            wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
+            tar -xvf ./yay-bin.tar.gz
+            cd yay-bin || return
+            makepkg -i --noconfirm --needed
+            cd .. || return
+            sudo rm -fR ./yay-bin
+            cd .. || return
+            sudo rm -fR ./Installer
+    fi
+
+    #Set Install Command
+    case $BaInCo in
+        dnf)
+            InCommand="sudo dnf install"
+            UpGradeCommand="sudo dnf -y dist-upgrade"
+            ;;
+        pacman)
+            InCommand="yay -S --needed"
+            UpGradeCommand="yay -Syyu --noconfirm"
+            ;;
+        emerge)
+            InCommand="sudo emerge --ask"
+            UpGradeCommand="sudo emerge --update --deep --with-bdeps=y @world"
+            ;;
+        zypper)
+            InCommand="sudo zypper in"
+            UpGradeCommand="sudo zypper -y dist-upgrade"
+            ;;
+        apt)
+            InCommand="sudo apt install"
+            UpGradeCommand="sudo apt update && sudo apt dist-upgrade"
+            ;;
+    esac
 
     #Function that will be used to simlink Home folders
     symlink_setup () {
@@ -77,6 +130,18 @@
     eval "$(ssh-agent -s)"
     sudo chmod 400 /home/david/.ssh/id_rsa
     ssh-add /home/david/.ssh/id_rsa
+
+    #Install Apps
+    $InCommand pass ruby qrencode tk firefox thunderbird p7zip smplayer smplayer-themes smtube youtube-dl mplayer \
+    python-pyqt5 drkonqi flite kwalletmanager kio-extras kdoctools catdoc kdeconnect sox dvdauthor dvgrab recordmydesktop \
+    simplescreenrecorder xine-ui dvd+rw-tools vcdimager cdrdao transcode suckless-tools luajit python-opengl clang botan kde-cli-tools \
+    gnome-boxes virtualbox-6.0 sublime-text sublime-merge neofetch steam gimp obs-studio lutris hexchat shotwell audacity guvcview catfish \
+    grub-customizer rawtherapee kipi-plugins kamera kdegraphics-mobipocket calligra pstoedit \
+    fusesmb samba cifs-utils exfat-utils engrampa arj lzip unrar unace darktable gwenview inkscape okular skanlite hplip xsane \
+    openshot simplescreenrecorder shellcheck unixodbc redshift numlockx variety \
+    gv ebtables bridge-utils radvd ceph terminator zsh
+
+    $UpGradeCommand
 
 	#Cleanup
     echo "Cleaning up"
