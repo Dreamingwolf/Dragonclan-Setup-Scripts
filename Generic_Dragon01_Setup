@@ -37,10 +37,12 @@
         dnf)
             InCommand="sudo dnf install"
             UpGradeCommand="sudo dnf -y system-upgrade"
+            $InCommand -y dialog
             ;;
         pacman)
             InCommand="yay -S --needed"
             UpGradeCommand="yay -Syyu --noconfirm"
+            $InCommand --noconfirm dialog
             ;;
         emerge)
             InCommand="sudo emerge --ask"
@@ -49,10 +51,12 @@
         zypper)
             InCommand="sudo zypper in"
             UpGradeCommand="sudo zypper -y dist-upgrade"
+            $InCommand -y dialog
             ;;
         apt)
             InCommand="sudo apt install"
             UpGradeCommand="sudo apt update && sudo apt dist-upgrade"
+            $InCommand -y dialog
             ;;
     esac
 
