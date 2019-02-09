@@ -75,7 +75,7 @@
     #Array to list home folders requiring simlinking
     home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
         'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
-        '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
+        '.steam' '.thunderbird' '.zoom' '.pam-gnupg' '.zprezto')
 
     #Updating Sudoers File to Add NOPASSWD to User
     echo "Sudo password is required for certain commands in this script."
