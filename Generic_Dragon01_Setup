@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 # A generic setup script for Dragon01
 # ~David F Muller
-# Version 3.2.1
+# Version 3.2.2
 
+    # Test for bash shell
+    if [ "$0" != "/bin/bash" ]; then /bin/bash; fi
     ##Determine Base Distro
     declare -A osInfo;
     osInfo[/etc/redhat-release]=dnf
@@ -50,8 +52,8 @@
             ;;
         zypper)
             InCommand="sudo zypper in"
-            UpGradeCommand="sudo zypper -y dist-upgrade"
-            $InCommand -y dialog
+            UpGradeCommand="sudo zypper -n dist-upgrade"
+            $InCommand -n dialog
             ;;
         apt)
             InCommand="sudo apt install"
