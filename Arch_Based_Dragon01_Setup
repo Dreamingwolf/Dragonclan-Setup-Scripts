@@ -1,7 +1,7 @@
 #!/bin/bash
 # A setup script for arch based distros
 # ~David F Muller
-# Version 3.2.1
+# Version 3.2.3
 
     #Function that will be used to simlink Home folders
         symlink_setup () {
@@ -85,8 +85,8 @@
         done
 
    #Verify that all userfiles are mine
-        sudo chown -R david:david /home/david/*
-        sudo chmod -R 777 /home/david/*
+        sudo chown -hR david:david /home/david/*
+#        sudo chmod -R 777 /home/david/*
 
 	#Update and Upgrade
         echo "Updating and Upgrading"

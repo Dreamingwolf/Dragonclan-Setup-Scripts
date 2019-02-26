@@ -1,7 +1,7 @@
 #!/bin/sh
 # A generic setup script for Dragon01
 # ~David F Muller
-# Version 3.2.2
+# Version 3.2.4
 
     # Test for bash shell
     if [ "$0" != "/bin/bash" ]; then /bin/bash; fi
@@ -129,8 +129,8 @@
     done
 
    #Verify that all userfiles are mine
-    sudo chown -R david:david /home/david/*
-    sudo chmod -R 777 /home/david/*
+    sudo chown -hR david:david /home/david/*
+#    sudo chmod -R 777 /home/david/*
 
     #Add ssh key
     eval "$(ssh-agent -s)"

@@ -1,14 +1,14 @@
 #!/bin/bash
 # Personal setup script for my desktop computer
 # ~David F Muller
-# Version 3.2
+# Version 3.2.1
 
     #Function that will be used to simlink Home folders
         symlink_setup () {
             if [ -e "$HOMEPART/$1" ]; then
                 if [ -e "/home/david/$1" ]; then
                     sudo rm -Rf "/home/david/$1"; fi
-                sudo ln -s "$HOMEPART/$1" "/home/david";
+                ln -s "$HOMEPART/$1" "/home/david";
             else echo "$1 not found in $HOMEPART"
             fi
         }
@@ -103,8 +103,8 @@
         echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
     #Verify that all userfiles are mine
-        sudo chown -R david:david /home/david/*
-        sudo chmod -R 777 /home/david/*
+        sudo chown -hR david:david /home/david/*
+#        sudo chmod -R 777 /home/david/*
 
     #Install additional software
         sudo dpkg --add-architecture i386
