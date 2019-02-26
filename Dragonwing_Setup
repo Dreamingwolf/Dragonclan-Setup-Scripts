@@ -8,7 +8,7 @@
         if [ -e "$HOMEPART/$1" ]; then
             if [ -e "/home/david/$1" ]; then
                 sudo rm -Rf "/home/david/$1"; fi
-            sudo ln -s "$HOMEPART/$1" "/home/david";
+            ln -s "$HOMEPART/$1" "/home/david";
         else echo "$1 not found in $HOMEPART"
         fi
     }
