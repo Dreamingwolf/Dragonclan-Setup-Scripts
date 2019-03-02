@@ -1,12 +1,14 @@
 #!/bin/bash
 # Personal setup script for my laptop computer
 # ~David F Muller
-# Version 3.2.3
+# Version 3.2.4
 
     #Function that will be used to simlink Home folders
     symlink_setup () {
         if [ -e "$HOMEPART/$1" ]; then
             if [ $1 == "Steam" ]; then
+                if [ -e "/home/david/.local/share/$1" ]; then
+                    sudo rm -Rf "/home/david/.local/share/$1"; fi
                 ln -s "$HOMEPART/$1" "/home/david/.local/share";
             else
                 if [ -e "/home/david/$1" ]; then

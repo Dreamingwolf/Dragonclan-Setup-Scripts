@@ -1,21 +1,27 @@
 #!/bin/bash
 # A setup script for arch based distros
 # ~David F Muller
-# Version 3.2.3
+# Version 3.2.4
 
     #Function that will be used to simlink Home folders
-        symlink_setup () {
-            if [ -e "$HOMEPART/$1" ]; then
+    symlink_setup () {
+        if [ -e "$HOMEPART/$1" ]; then
+            if [ $1 == "Steam" ]; then
+                if [ -e "/home/david/.local/share/$1" ]; then
+                    sudo rm -Rf "/home/david/.local/share/$1"; fi
+                ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            else
                 if [ -e "/home/david/$1" ]; then
                     sudo rm -Rf "/home/david/$1"; fi
                 ln -s "$HOMEPART/$1" "/home/david";
-            else echo "$1 not found in $HOMEPART"
             fi
-        }
+        else echo "$1 not found in $HOMEPART"
+        fi
+    }
 
     #Array to list home folders requiring simlinking
         home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
-            'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
+            'Scripts' 'SteamLibrary' 'Steam' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
             '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
 
     #Updating Sudoers File to Add NOPASSWD to User

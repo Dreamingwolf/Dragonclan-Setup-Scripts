@@ -1,7 +1,7 @@
 #!/bin/sh
 # A generic setup script for Dragon01
 # ~David F Muller
-# Version 3.2.4
+# Version 3.2.5
 
     # Test for bash shell
     if [ "$0" != "/bin/bash" ]; then /bin/bash; fi
@@ -65,16 +65,22 @@
     #Function that will be used to simlink Home folders
     symlink_setup () {
         if [ -e "$HOMEPART/$1" ]; then
-            if [ -e "/home/david/$1" ]; then
-                sudo rm -Rf "/home/david/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david";
+            if [ $1 == "Steam" ]; then
+                if [ -e "/home/david/.local/share/$1" ]; then
+                    sudo rm -Rf "/home/david/.local/share/$1"; fi
+                ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            else
+                if [ -e "/home/david/$1" ]; then
+                    sudo rm -Rf "/home/david/$1"; fi
+                ln -s "$HOMEPART/$1" "/home/david";
+            fi
         else echo "$1 not found in $HOMEPART"
         fi
     }
 
     #Array to list home folders requiring simlinking
     home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
-        'Scripts' 'SteamLibrary' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
+        'Scripts' 'SteamLibrary' 'Steam' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
         '.steam' '.thunderbird' '.zoom' '.pam-gnupg' '.zprezto')
 
     #Updating Sudoers File to Add NOPASSWD to User
