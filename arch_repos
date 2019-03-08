@@ -50,9 +50,6 @@ Server = https://arch.miffe.org/$arch/
 SigLevel = Optional TrustAll
 Server = https://mega.nz/linux/MEGAsync/Arch_Extra/$arch
 
-[sublime-text]
-Server = https://download.sublimetext.com/arch/stable/x86_64
-
 #[archstrike]
 #Include = /etc/pacman.d/archstrike-mirrorlist
 
