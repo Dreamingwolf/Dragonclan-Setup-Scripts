@@ -1,21 +1,33 @@
 #!/bin/bash
 # Personal setup script for my desktop computer
 # ~David F Muller
-# Version 3.2.3
+# Version 3.3
 
     #Function that will be used to simlink Home folders
-    symlink_setup () {
+    symlink_home_folders () {
         if [ -e "$HOMEPART/$1" ]; then
-            if [ "$1" == "Steam" ]; then
-                if [ -e "/home/david/.local/share/$1" ]; then
+            if [ -e "/home/david/$1" ]; then
+                sudo rm -Rf "/home/david/$1"; fi
+            ln -s "$HOMEPART/$1" "/home/david";
+            else echo "$1 not found in $HOMEPART"
+        fi
+    }
+
+    symlink_local_share_folders () {
+        if [ -e "$HOMEPART/.local/share/$1" ]; then
+            if [ -e "/home/david/.local/share/$1" ]; then
                     sudo rm -Rf "/home/david/.local/share/$1"; fi
-                ln -s "$HOMEPART/$1" "/home/david/.local/share";
-            else
-                if [ -e "/home/david/$1" ]; then
-                    sudo rm -Rf "/home/david/$1"; fi
-                ln -s "$HOMEPART/$1" "/home/david";
-            fi
-        else echo "$1 not found in $HOMEPART"
+            ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            else echo "$1 not found in $HOMEPART/.local/share"
+        fi
+    }
+
+    symlink_config_folders () {
+        if [ -e "$HOMEPART/.config/$1" ]; then
+            if [ -e "/home/david/.config/$1" ]; then
+                    sudo rm -Rf "/home/david/.config/$1"; fi
+            ln -s "$HOMEPART/$1" "/home/david/.config";
+            else echo "$1 not found in $HOMEPART/.config"
         fi
     }
 
@@ -33,6 +45,11 @@
         home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
             'Scripts' 'SteamLibrary' 'Steam' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
             '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
+
+        local_share_folders=('Euro Truck Simulator 2' 'lutris' 'qtwebflix' 'Rocket League' 'Steam' 'TelegramDesktop')
+
+        config_folders=('Bitwarden' 'discord' 'gnome-boxes' 'kdeconnect' 'libreoffice' 'lutris' 'Mumble' 'nitrogen'
+            'obs-studio' 'Qtwebflix' 'redshift' 'smplayer' 'terminator' 'Thunar' 'variety' 'VirtualBox' 'yay' 'zoomus.conf')
 
     #Updating Sudoers File to Add NOPASSWD to User
         echo "Sudo password is required for certain commands in this script."
@@ -82,9 +99,17 @@
 	#Mount the UserData Partition to .home
         sudo mount "$HOMEDATA" "$HOMEPART"
 
-	#Remove original folders & Install symbolic links
+    #Remove original folders & Install symbolic links
         for i in "${home_folders[@]}"; do
-            symlink_setup "$i"
+            symlink_home_folders "$i"
+        done
+
+        for i in "${local_share_folders[@]}"; do
+            symlink_local_share_folders "$i"
+        done
+
+        for i in "${config_folders[@]}"; do
+            symlink_config_folders "$i"
         done
 
     #Install PPAs for expanded app access
