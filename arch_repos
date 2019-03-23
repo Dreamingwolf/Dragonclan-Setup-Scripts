@@ -34,9 +34,9 @@ Server = http://jlk.fjfi.cvut.cz/arch/repo
 SigLevel = PackageOptional
 Server = http://martchus.no-ip.biz/repo/arch/$repo/os/$arch
 
-[xyne-x86_64]
-SigLevel = PackageOptional
-Server = https://xyne.archlinux.ca/repos/xyne
+#[xyne-x86_64]
+#SigLevel = PackageOptional
+#Server = https://xyne.archlinux.ca/repos/xyne
 
 [dx37essentials]
 SigLevel = PackageOptional
