@@ -152,7 +152,7 @@
         sudo pacman -Rn --cascade firefox chromium dropbox spotify vivaldi-codecs-ffmpeg-extra-bin vivaldi geany atom evolution
         if [ -d "/home/david/.home/WinFonts" ]; then
                 sudo mkdir /usr/share/fonts/WindowsFonts
-                sudo cp -fR /home/david/.home/WinFonts /usr/share/fonts/WindowsFonts
+                sudo cp -fR /home/david/.home/WinFonts/* /usr/share/fonts/WindowsFonts/
                 sudo chmod 755 /usr/share/fonts/WindowsFonts/*
                 sudo fc-cache -f
         fi
