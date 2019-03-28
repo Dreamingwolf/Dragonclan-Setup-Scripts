@@ -17,7 +17,7 @@
         if [ -e "$HOMEPART/.local/share/$1" ]; then
             if [ -e "/home/david/.local/share/$1" ]; then
                     sudo rm -Rf "/home/david/.local/share/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            ln -s "$HOMEPART/.local/share/$1" "/home/david/.local/share";
             else echo "$1 not found in $HOMEPART/.local/share"
         fi
     }
@@ -26,7 +26,7 @@
         if [ -e "$HOMEPART/.config/$1" ]; then
             if [ -e "/home/david/.config/$1" ]; then
                     sudo rm -Rf "/home/david/.config/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.config";
+            ln -s "$HOMEPART/.config/$1" "/home/david/.config";
             else echo "$1 not found in $HOMEPART/.config"
         fi
     }
@@ -157,7 +157,7 @@
             gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
         getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
-        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
+        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxsf david
         yay -Syu
 
     #Add ssh key

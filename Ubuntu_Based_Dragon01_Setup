@@ -17,7 +17,7 @@
         if [ -e "$HOMEPART/.local/share/$1" ]; then
             if [ -e "/home/david/.local/share/$1" ]; then
                     sudo rm -Rf "/home/david/.local/share/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            ln -s "$HOMEPART/.local/share/$1" "/home/david/.local/share";
             else echo "$1 not found in $HOMEPART/.local/share"
         fi
     }
@@ -26,7 +26,7 @@
         if [ -e "$HOMEPART/.config/$1" ]; then
             if [ -e "/home/david/.config/$1" ]; then
                     sudo rm -Rf "/home/david/.config/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.config";
+            ln -s "$HOMEPART/.config/$1" "/home/david/.config";
             else echo "$1 not found in $HOMEPART/.config"
         fi
     }
@@ -164,9 +164,17 @@
         #libxcomposite:i386 libxinerama:i386 opencl-icd-loader opencl-icd-loader:i386 libxslt:i386 gst-plugins-base-libs:i386 sdl:i386 fluidsynth:i386 opencl-driver:i386 
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
         getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
-        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
+        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxsf david
         sudo rm ./overgrive_3.2.3_all.deb
         sudo rm ./steam.deb
+
+    #Install Winfonts
+        if [ -d "/home/david/.home/WinFonts" ]; then
+                sudo mkdir /usr/share/fonts/WindowsFonts
+                sudo cp -fR /home/david/.home/WinFonts/* /usr/share/fonts/WindowsFonts/
+                sudo chmod 755 /usr/share/fonts/WindowsFonts/*
+                sudo fc-cache -f
+        fi
 
      #Add ssh key
         eval "$(ssh-agent -s)"

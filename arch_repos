@@ -42,9 +42,9 @@ Server = http://martchus.no-ip.biz/repo/arch/$repo/os/$arch
 SigLevel = PackageOptional
 Server = https://dx37.gitlab.io/$repo/$arch
 
-[miffe]
-SigLevel = PackageOptional
-Server = https://arch.miffe.org/$arch/
+#[miffe]
+#SigLevel = PackageOptional
+#Server = https://arch.miffe.org/$arch/
 
 [DEB_Arch_Extra]
 SigLevel = Optional TrustAll

@@ -77,7 +77,7 @@
         if [ -e "$HOMEPART/.local/share/$1" ]; then
             if [ -e "/home/david/.local/share/$1" ]; then
                     sudo rm -Rf "/home/david/.local/share/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.local/share";
+            ln -s "$HOMEPART/.local/share/$1" "/home/david/.local/share";
             else echo "$1 not found in $HOMEPART/.local/share"
         fi
     }
@@ -86,7 +86,7 @@
         if [ -e "$HOMEPART/.config/$1" ]; then
             if [ -e "/home/david/.config/$1" ]; then
                     sudo rm -Rf "/home/david/.config/$1"; fi
-            ln -s "$HOMEPART/$1" "/home/david/.config";
+            ln -s "$HOMEPART/.config/$1" "/home/david/.config";
             else echo "$1 not found in $HOMEPART/.config"
         fi
     }

@@ -79,7 +79,7 @@
             gv ebtables bridge-utils radvd ceph qemu-block-gluster qemu-block-iscsi qemu-block-rbd qemu-arch-extra python2-pyquery python2-restkit terminator zsh
         sudo glib-compile-schemas /usr/share/glib-2.0/schemas
         getent group vboxusers || sudo groupadd vboxusers && sudo usermod -aG vboxusers david
-        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxfs david
+        getent group vboxsf || sudo groupadd vboxsf && sudo usermod -aG vboxsf david
         yay -Syu
 
     #Add ssh key
@@ -90,7 +90,7 @@
     #Add Windows Fonts
         cd ~/ || return
         sudo mkdir /usr/share/fonts/WindowsFonts
-        sudo cp -fR ./WinFonts /usr/share/fonts/WindowsFonts
+        sudo cp -fR ./WinFonts/* /usr/share/fonts/WindowsFonts/
         sudo chmod 755 /usr/share/fonts/WindowsFonts/*
         sudo fc-cache -f
 
