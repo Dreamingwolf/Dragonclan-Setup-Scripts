@@ -55,7 +55,7 @@
         cd yay-bin || return
         makepkg -i --noconfirm --needed
         cd .. || return
-        sudo rm -fR ./yay-bin
+        sudo rm -fR ./yay-bin*
         cd .. || return
         sudo rm -fR ./Installer
 

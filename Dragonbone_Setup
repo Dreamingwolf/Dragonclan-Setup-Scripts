@@ -11,13 +11,13 @@
         echo "$SUDOPWD" | sudo -S sh -c "echo \"$USER ALL=(ALL) NOPASSWD: ALL\" >&- > /etc/sudoers.d/90-$USER"
 
     #Making sure yay-bin is installed
-        cd ~/ || return
+        cd ~ || return
         wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz
         tar -xvf ./yay-bin.tar.gz
         cd yay-bin || return
-        makepkg -i
+        makepkg -i --noconfirm --needed
         cd .. || return
-        sudo rm -fR ./yay-bin
+        sudo rm -fR ./yay-bin*
 
 	#Fetching Needed Files
         echo "Fetching needed files"
