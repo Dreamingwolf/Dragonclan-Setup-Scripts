@@ -34,7 +34,7 @@
     #Array to list home folders requiring simlinking
     home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
         'Scripts' 'SteamLibrary' 'Steam' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
-        '.steam' '.thunderbird' '.zoom' '.pam-gnupg' '.zprezto')
+        '.steam' '.thunderbird' '.zoom' '.pam-gnupg' '.zprezto' '.bash' '.bashrc')
 
     local_share_folders=('Euro Truck Simulator 2' 'lutris' 'qtwebflix' 'Rocket League' 'Steam' 'TelegramDesktop')
 
@@ -142,7 +142,7 @@
             sudo fc-cache -f
         fi
         sudo pacman -Rn --cascade firefox chromium dropbox spotify vivaldi-codecs-ffmpeg-extra-bin vivaldi geany atom evolution
-        yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird-nightly rawtherapee \
+        yay -S --needed linux-headers pass ruby xorg-server-devel qrencode tk firefox-nightly thunderbird rawtherapee \
             p7zip p7zip-gui wimlib overgrive qtwebflix-git zoom discord telegram-desktop-systemqt-notoemoji smplayer smplayer-themes smplayer-skins smtube youtube-dl mplayer \
             python-pyqt5 drkonqi breeze-icons gst-libav flite kwalletmanager kio-extras kdoctools knetattach kirigami2 qt5-tools catdoc kdeconnect sdl_image sox movit \
             dvdauthor dvgrab recordmydesktop simplescreenrecorder xine-ui xsane-gimp dvd+rw-tools vcdimager emovix cdrdao transcode openmp dmenu pam-gnupg-git luajit \

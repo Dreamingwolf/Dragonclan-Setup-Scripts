@@ -44,7 +44,7 @@
     #Array to list home folders requiring simlinking
         home_folders=('Camera' 'Documents' 'Downloads' 'Etcher' 'Games' 'Github' 'Google_Drive' 'Links' 'Music' 'Pictures'
             'Scripts' 'SteamLibrary' 'Steam' 'Sync' 'Videos' 'VPNac' 'Wallpapers' 'Working' '.gnupg' '.gdfuse' '.mozilla' '.ssh'
-            '.steam' '.thunderbird' '.zoom' '.pam-gnupg')
+            '.steam' '.thunderbird' '.zoom' '.pam-gnupg' '.bash' '.bashrc')
 
         local_share_folders=('Euro Truck Simulator 2' 'lutris' 'qtwebflix' 'Rocket League' 'Steam' 'TelegramDesktop')
 
