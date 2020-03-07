@@ -100,7 +100,7 @@
             symlink_home_folders_a "$i"
         done
 
-        for i in /Backup/HomeLinks/
+        for i in $(ls -A /Backup/HomeLinks/)
             do
                 symlink_home_folders_b "$i"
             done
